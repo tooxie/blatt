@@ -15,7 +15,7 @@ ITEM_PIPELINES = {
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware': 300,
 }
-HTTPCACHE_ENABLED = True
+HTTPCACHE_ENABLED = False
 HTTPCACHE_STORAGE = 'scrapy.contrib.httpcache.FilesystemCacheStorage'
 EXTENSIONS = {
     'scrapy.contrib.closespider.CloseSpider': 300,
