@@ -43,6 +43,11 @@
             <a href="{{ article.url }}">{{ article.url }}</a>
         </p>
 
+        {% if map %}
+            {{ map.render()|safe }}
+        {% endif %}
+
+        <!-- Publication -->
         <h2>
             {{ publication.name }}
         </h2>

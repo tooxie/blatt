@@ -6,6 +6,7 @@ from markdown import markdown
 from blatt.persistence import session, Publication, Article
 
 app = Flask(__name__)
+app.config.from_object('blatt.www.config')
 
 @app.route('/')
 def index():
@@ -27,9 +28,23 @@ def publication_detail(slug):
     return render_template('publication_detail.html', publication=publication,
                            articles=articles)
 
+
+class Map:
+    def __init__(self, article):
+        self.latitude = article.latitude
+        self.longitude = article.longitude
+        self.api_key = app.config.get('GOOGLE_MAPS_API_KEY')
+        self.mark_title = article.title
+
+    def render(self):
+        return render_template('gmaps.html', latitude=self.latitude,
+                               longitude=self.longitude, api_key=self.api_key,
+                               title=self.mark_title)
+
+
 @app.route('/<publication_slug>/<article_slug>/<int:article_pk>')
 def article_detail(publication_slug, article_slug, article_pk):
-    print('ARTICLE DETAIL')
+    map = None
     article = session.query(Article).get(article_pk)
     if not article:
         abort(404)
@@ -40,8 +55,11 @@ def article_detail(publication_slug, article_slug, article_pk):
     except:
         abort(404)
 
+    if article.latitude and article.longitude:
+        map = Map(article)
+
     return render_template('article_detail.html', publication=publication,
-                           article=article)
+                           article=article, map=map)
 
 
 def get_article_image(article):
@@ -68,7 +86,7 @@ def get_article_lead(article):
 
 def get_media_caption(media):
     caption = media.caption or ''
-    author = media.photographer.name or ''
+    author = media.photographer.name if media.photographer else ''
 
     if caption:
         if author:
