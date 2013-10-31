@@ -4,38 +4,24 @@
         <h1>
             {{ article.title }}
         </h1>
-            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                {% if article.medias|len > 1 %}
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        {% for media in article.medias %}
-                        <li data-target="#carousel-example-generic" data-slide-to="{{ loop.index }}" class="{% if loop.index == 1 %}active{% endif %}"></li>
-                        {% endfor %}
-                    </ol>
-                {% endif %}
-
-                <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-
-                    {% for media in article.medias %}
-                        <div class="item {% if loop.index == 1 %}active{% endif %}" style="text-align: center;">
-                            <a href="{{ media.url }}">
-                                <img src="{{ media.url }}" alt="{{ media|get_caption }}" title="{{ media|get_caption }}">
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                {% if article.medias|len > 1 %}
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
-                {% endif %}
-            </div>
+        {% if article.deck %}
+            <p>
+                {{ article.deck }}
+            </p>
+        {% endif %}
+        <p>
+            {% for media in article.medias %}
+                <a href="{{ media.url }}" class="media">
+                    <img src="{{ media.url }}" alt="{{ media|get_caption }}" title="{{ media|get_caption }}">
+                </a>
+            {% endfor %}
+        </p>
+        {% if article.lead %}
+            <p>
+                {{ article.lead }}
+            </p>
+            <hr>
+        {% endif %}
         <p>
             {{ article.body|markdown|safe }}
         </p>
