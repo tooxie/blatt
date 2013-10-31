@@ -12,15 +12,17 @@
             {% for article in articles %}
                 <div class="col-lg-4 article" style="background-image:url({{ article|get_image }})">
                     <div class="article-inner">
+                        <div>
+                            <span class="date">{{ article.publication_date }}</span>
+                            <div class="authors">
+                                {% for author in article.authors %}
+                                    <div class="author">{{ author.name }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
                         <h2>
                             <a href="/{{ publication.slug }}/{{ article.title|slugify }}/{{ article.pk }}">{{ article.title }}</a>
                         </h2>
-                        <p>
-                        {% for author in article.authors %}
-                            <span class="author">{{ author.name }}</span>
-                        {% endfor %}
-                        <span class="date">{{ article.publication_date }}</span><br>
-                        </p>
                         <p class="lead">
                             {{ article|get_lead }}
                         </p>

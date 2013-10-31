@@ -1,6 +1,9 @@
 body {
     padding-top:50px;
 }
+h2 img {
+    max-width:50%;
+}
 .article {
     background-position: center center;
     background-repeat:no-repeat;

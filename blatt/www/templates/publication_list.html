@@ -24,12 +24,11 @@
             {% for publication in publications %}
             <div class="col-lg-4">
                 <h2>
-                    {{ publication.name }}
+                    <a href="/{{ publication.slug }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
                 </h2>
                 <p>
-                    Hola
+                    <a class="btn btn-default" href="/{{ publication.slug }}">View articles &raquo;</a>
                 </p>
-                <p><a class="btn btn-default" href="/{{ publication.slug }}">View articles &raquo;</a></p>
             </div>
             {% endfor %}
         </div>
