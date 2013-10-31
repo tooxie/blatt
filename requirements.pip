@@ -1,3 +1,6 @@
+Flask
+Markdown
 markdownify
 scrapy
+slugify
 sqlalchemy
