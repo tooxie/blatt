@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import re
 
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider
@@ -9,11 +10,14 @@ from scrapy.selector import XPathSelector
 from blatt.scrapers.spiders.utils import to_markup
 from blatt.scrapers.items import Article, Media
 
+GEO_RE = re.compile(r"GLatLng\('([\d\.-]+)', '([\d\.-]+)'\)")
+
 
 class ElObservadorSpider(CrawlSpider):
     name = 'elobservador'
     publication_name = u'El Observador'
     url = 'http://elobservador.com.uy'
+    logo = 'http://i.imgur.com/L8YxfD9.png'
     allowed_domains = ['elobservador.com.uy']
     start_urls = [
         'http://www.elobservador.com.uy/portada/'
@@ -54,11 +58,24 @@ class ElObservadorSpider(CrawlSpider):
             section = selector.select('//h5/b/text()').extract()[0][:-3]
         except Exception, e:
             import ipdb; ipdb.set_trace()
-        date = get_date(selector.select('//div[@class="fecha"]/text()').extract())
+        date = get_date(selector.select('//div[@class="fecha"]'
+                                        '/text()').extract())
+        latitude, longitude = get_geolocation(response.body)
 
-        return Article(url=response.url, title=title, deck=deck, lead='',
-                       body=body, authors=authors, media=media,
-                       section=section, date=date)
+        return Article(url=response.url, title=title, deck=deck, body=body,
+                       authors=authors, media=media, section=section,
+                       latitude=latitude, longitude=longitude, date=date)
+
+
+def get_geolocation(html):
+    latitude = None
+    longitude = None
+    matches = GEO_RE.findall(html)
+
+    if matches:
+        latitude, longitude = matches[0]
+
+    return (latitude, longitude)
 
 
 # TODO: Falta considerar videos. Ejemplo:
@@ -83,7 +100,7 @@ def mk_media(element):
         print author
         import ipdb; ipdb.set_trace()
 
-    media = Media(url=url, photographer=author, caption='')
+    media = Media(url=url, photographer=author)
 
     return media
 
@@ -102,7 +119,7 @@ def parse_body(elements):
     for element in elements:
         el_class = element.select('@class').extract()
         el_id = element.select('@id').extract()
-        if el_class in ([], ['embed']) and el_id == []:
+        if el_class in ([], ['MsoNormal'], ['embed']) and el_id == []:
             content = element.extract()
             if 'googleFillSlot' not in content:
                 body += to_markup(content)

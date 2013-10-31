@@ -18,4 +18,6 @@ class Article(Item):
     media = Field()
     date = Field()
     section = Field()
+    latitude = Field()
+    longitude = Field()
     publication_date = Field()
