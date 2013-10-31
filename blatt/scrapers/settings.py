@@ -20,4 +20,5 @@ HTTPCACHE_STORAGE = 'scrapy.contrib.httpcache.FilesystemCacheStorage'
 EXTENSIONS = {
     'scrapy.contrib.closespider.CloseSpider': 300,
 }
+HTTP_CACHE_POLICY = 'scrapy.contrib.httpcache.RFC2616Policy'
 CLOSESPIDER_ERRORCOUNT = 1
