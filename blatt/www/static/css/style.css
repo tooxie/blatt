@@ -1,0 +1,18 @@
+body {
+    padding-top:50px;
+}
+.article {
+    background-position: center center;
+    background-repeat:no-repeat;
+    background-size:cover;
+    clear:right;
+    float:left;
+    margin-bottom:1.5%;
+}
+.article-inner {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding:1em;
+}
+.date {
+    float:right;
+}
