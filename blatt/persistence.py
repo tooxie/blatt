@@ -21,9 +21,10 @@ class Publication(Base):
     __tablename__ = 'publications'
 
     pk = Column(Integer, primary_key=True)
-    name = Column(String)
-    slug = Column(String)
-    url = Column(String)
+    name = Column(String, nullable=False, unique=True)
+    slug = Column(String, nullable=False)
+    logo = Column(String, nullable=False, unique=True)
+    url = Column(String, nullable=False, unique=True)
 
     def __repr__(self):
         return "<Publication('%s')>" % self.name
@@ -39,7 +40,7 @@ class Section(Base):
     __tablename__ = 'sections'
 
     pk = Column(Integer, primary_key=True)
-    name = Column(String)
+    name = Column(String, nullable=False, unique=True)
     slug = Column(String)
 
     publications = relationship('Publication', secondary=publications_sections,
@@ -53,7 +54,7 @@ class Journalist(Base):
     __tablename__ = 'journalists'
 
     pk = Column(Integer, primary_key=True)
-    name = Column(String)
+    name = Column(String, nullable=False, unique=True)
     slug = Column(String)
 
     def __repr__(self):
@@ -75,6 +76,8 @@ class Article(Base):
     lead = Column(String)
     body = Column(Text)
     url = Column(String, nullable=False, unique=True)
+    latitude = Column(String)
+    longitude = Column(String)
     publication_date = Column(Date)
     publication_pk = Column(Integer, ForeignKey('publications.pk'))
     section_pk = Column(Integer, ForeignKey('sections.pk'))
@@ -96,7 +99,7 @@ class Photographer(Base):
     __tablename__ = 'photographers'
 
     pk = Column(Integer, primary_key=True)
-    name = Column(String)
+    name = Column(String, nullable=False, unique=True)
     slug = Column(String)
 
     def __repr__(self):
@@ -107,7 +110,7 @@ class Media(Base):
     __tablename__ = 'medias'
 
     pk = Column(Integer, primary_key=True)
-    url = Column(String)
+    url = Column(String, nullable=False, unique=True)
     caption = Column(String)
     article_pk = Column(Integer, ForeignKey('articles.pk'))
     photographer_pk = Column(Integer, ForeignKey('photographers.pk'))
