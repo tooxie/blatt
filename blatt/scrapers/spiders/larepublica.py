@@ -36,6 +36,8 @@ class LaRepublicaSpider(CrawlSpider):
     name = 'larepublica'
     publication_name = u'La República'
     url = 'http://republica.com.uy'  # Custom field
+    logo = ('http://www.republica.com.uy/wp-content/themes/la_republica_2013/'
+            'images/logo_grande.png')
     allowed_domains = ['republica.com.uy']
     start_urls = [
         'http://www.republica.com.uy/'
@@ -89,14 +91,15 @@ def parse_body(paragraphs):
 
 
 def parse_deck(match):
+    deck = None
     match = match.extract()
-    deck = ''
+
     if match:
         deck = match[0].strip()
 
     for section in SECTIONS:
         if section[0] == deck.lower():
-            deck = ''
+            deck = None
 
     return deck
 

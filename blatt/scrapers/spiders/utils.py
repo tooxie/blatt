@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-from blatt.markdownify import markdownify
+import re
 
-from .exceptions import MultipleMatchesError
+from blatt.markdownify import markdownify
+from blatt.scrapers.spiders.exceptions import MultipleMatchesError
+
+COMM_RE = re.compile(r'<!--.*-->', re.M + re.S)
 
 
 def extract(article, selector):
@@ -18,4 +21,6 @@ def extract(article, selector):
 
 
 def to_markup(html):
+    html = COMM_RE.sub('', html)
+
     return markdownify(html)

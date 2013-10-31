@@ -36,20 +36,19 @@ def parse_caption(string):
     string = string.strip()
 
     if not string:
-        return ('', '')
+        return (None, None)
 
     matches = [bit.strip() for bit in FOTO_RE.split(string)]
 
     if len(matches) > 2:
         matches = (matches[0], matches[-1])
-
-    if len(matches) == 1:
-        return (string, '')
+    elif len(matches) == 1:
+        return (string, None)
 
     caption, author = matches
 
     if caption == '':  # Means that string starts with the pattern "[fF]oto:"
-        return ('', matches[1])
+        return (None, matches[1])
 
     if ',' in author:
         author = author.split(',')[0]
@@ -61,6 +60,7 @@ class LaDiariaSpider(CrawlSpider):
     name = 'ladiaria'
     publication_name = u'la diaria'
     url = 'http://ladiaria.com.uy'  # Custom field
+    logo = 'http://ladiaria.com.uy/media/img/ladiaria.jpg'  # Custom field
     allowed_domains = ['ladiaria.com', 'ladiaria.com.uy']
     start_urls = [
         'http://ladiaria.com.uy/'

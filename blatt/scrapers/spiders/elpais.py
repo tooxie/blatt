@@ -35,6 +35,7 @@ class ElPaisSpider(CrawlSpider):
     name = 'elpais'
     publication_name = u'El País'
     url = 'http://www.elpais.com.uy'  # Custom field
+    logo = 'http://i.imgur.com/zKOBh2l.png'
     allowed_domains = ['www.elpais.com.uy', 'www.ovaciondigital.com.uy']
     start_urls = [
         'http://www.elpais.com.uy/',

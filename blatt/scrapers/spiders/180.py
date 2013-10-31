@@ -32,6 +32,7 @@ class Portal180Spider(CrawlSpider):
     name = '180'
     publication_name = u'180.com.uy'
     url = 'http://180.com.uy'  # Custom field
+    logo = 'http://180.com.uy/tplef/img/logo.gif'  # Custom field
     allowed_domains = ['180.com.uy']
     start_urls = [
         'http://180.com.uy/'
@@ -50,7 +51,8 @@ class Portal180Spider(CrawlSpider):
         article = selector.select('//div[contains(@class, "tef-md-seccion")]')
 
         title = extract(article, 'div[@class="hd"]/h2/text()')
-        deck = selector.select('//div[@class="hd"]/p/text()').extract()[0].strip()
+        deck = selector.select('//div[@class="hd"]'
+                               '/p/text()').extract()[0].strip()
         date = get_date(article.select('div[@class="hd"]/p/text()').extract())
         authors = selector.select('//a[contains(@href, "/periodistas/")]/'
                                   'text()').extract()
@@ -60,9 +62,9 @@ class Portal180Spider(CrawlSpider):
 
         body = parse_body(selector.select('//div[@class="mg"]/p'))
 
-        return Article(url=response.url, title=title, deck=deck, lead='',
-                       body=body, authors=authors, media=media,
-                       section=section, date=date)
+        return Article(url=response.url, title=title, deck=deck, body=body,
+                       authors=authors, media=media, section=section,
+                       date=date)
 
 
 def parse_body(pp):
