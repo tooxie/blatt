@@ -14,7 +14,7 @@ GEO_RE = re.compile(r"GLatLng\('([\d\.-]+)', '([\d\.-]+)'\)")
 
 
 class ElObservadorSpider(CrawlSpider):
-    name = 'elobservador'
+    name = 'observa'
     publication_name = u'El Observador'
     url = 'http://elobservador.com.uy'
     logo = 'http://i.imgur.com/L8YxfD9.png'
