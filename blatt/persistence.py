@@ -1,11 +1,15 @@
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, Text, Date
+# -*- coding: utf-8 -*-
+import os
+
+from sqlalchemy import create_engine, Column, Integer, String, Text, Date, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('sqlite:///blatt.db')
+dirname = os.path.dirname(__file__)
+
+engine = create_engine('sqlite:///' + dirname + '/../blatt.db')
 
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
@@ -18,7 +22,48 @@ class Publication(Base):
 
     pk = Column(Integer, primary_key=True)
     name = Column(String)
+    slug = Column(String)
     url = Column(String)
+
+    def __repr__(self):
+        return "<Publication('%s')>" % self.name
+
+
+publications_sections = Table('publications_sections', Base.metadata,
+    Column('publication_pk', Integer, ForeignKey('publications.pk')),
+    Column('section_pk', Integer, ForeignKey('sections.pk'))
+)
+
+
+class Section(Base):
+    __tablename__ = 'sections'
+
+    pk = Column(Integer, primary_key=True)
+    name = Column(String)
+    slug = Column(String)
+
+    publications = relationship('Publication', secondary=publications_sections,
+                          backref='sections')
+
+    def __repr__(self):
+        return "<Section('%s')>" % self.name
+
+
+class Journalist(Base):
+    __tablename__ = 'journalists'
+
+    pk = Column(Integer, primary_key=True)
+    name = Column(String)
+    slug = Column(String)
+
+    def __repr__(self):
+        return "<Journalist('%s')>" % self.name
+
+
+journalists_articles = Table('journalists_articles', Base.metadata,
+    Column('journalist_pk', Integer, ForeignKey('journalists.pk')),
+    Column('article_pk', Integer, ForeignKey('articles.pk'))
+)
 
 
 class Article(Base):
@@ -32,9 +77,41 @@ class Article(Base):
     url = Column(String, nullable=False, unique=True)
     publication_date = Column(Date)
     publication_pk = Column(Integer, ForeignKey('publications.pk'))
+    section_pk = Column(Integer, ForeignKey('sections.pk'))
 
-    publication = relationship("Publication", backref=backref('articles',
-                                                              order_by=pk))
+    publication = relationship('Publication',
+                               backref=backref('articles',
+                                               order_by=publication_date))
+    section = relationship('Section',
+                           backref=backref('articles',
+                                           order_by=publication_date))
+    authors = relationship('Journalist', secondary=journalists_articles,
+                          backref='articles')
 
     def __repr__(self):
         return "<Article('%s')>" % self.title
+
+
+class Photographer(Base):
+    __tablename__ = 'photographers'
+
+    pk = Column(Integer, primary_key=True)
+    name = Column(String)
+    slug = Column(String)
+
+    def __repr__(self):
+        return "<Photographer('%s')>" % self.name
+
+
+class Media(Base):
+    __tablename__ = 'medias'
+
+    pk = Column(Integer, primary_key=True)
+    url = Column(String)
+    caption = Column(String)
+    article_pk = Column(Integer, ForeignKey('articles.pk'))
+    photographer_pk = Column(Integer, ForeignKey('photographers.pk'))
+
+    article = relationship('Article', backref=backref('medias', order_by=pk))
+    photographer = relationship('Photographer',
+                                backref=backref('photos', order_by=pk))
