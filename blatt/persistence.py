@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 
-from sqlalchemy import create_engine, Column, Integer, String, Text, Date, Table
+from sqlalchemy import (create_engine, Column, Integer, String, Text, DateTime,
+                        Table)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -78,7 +79,7 @@ class Article(Base):
     url = Column(String, nullable=False, unique=True)
     latitude = Column(String)
     longitude = Column(String)
-    publication_date = Column(Date)
+    publication_date = Column(DateTime)
     publication_pk = Column(Integer, ForeignKey('publications.pk'))
     section_pk = Column(Integer, ForeignKey('sections.pk'))
 
