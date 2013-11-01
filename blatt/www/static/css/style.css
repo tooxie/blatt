@@ -33,4 +33,5 @@ h2 img {
 }
 .media img {
     border:1px solid black;
+    max-width:100%;
 }

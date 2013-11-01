@@ -19,6 +19,9 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/">Blatt</a>
+                    {% if publication %}
+                        <a class="navbar-brand" href="/{{ publication.slug }}">{{ publication.name }}</a>
+                    {% endif %}
                 </div>
                 <!--
                 <div class="navbar-collapse collapse">

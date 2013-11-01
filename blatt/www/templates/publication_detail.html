@@ -16,7 +16,7 @@
                             <span class="date">{{ article.publication_date }}</span>
                             <div class="authors">
                                 {% for author in article.authors %}
-                                    <div class="author">{{ author.name }}</div>
+                                    <div class="author">{{ author.name|twitterify|safe }}</div>
                                 {% endfor %}
                             </div>
                         </div>

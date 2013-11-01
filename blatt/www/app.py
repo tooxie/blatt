@@ -1,18 +1,24 @@
 # -*- coding: utf-8 -*-
+import re
+
 from flask import Flask, render_template, abort
-from slugify import slugify
 from markdown import markdown
+from slugify import slugify
 
 from blatt.persistence import session, Publication, Article
 
 app = Flask(__name__)
 app.config.from_object('blatt.www.config')
 
+TWIT_RE = re.compile(r'@([A-Za-z0-9_]+)')
+
+
 @app.route('/')
 def index():
     publications = session.query(Publication).all()
 
     return render_template('publication_list.html', publications=publications)
+
 
 @app.route('/<slug>')
 def publication_detail(slug):
@@ -98,12 +104,17 @@ def get_media_caption(media):
     return caption
 
 
+def twitterify(string):
+    return TWIT_RE.sub('<a href="https://twitter.com/\\1">@\\1</a>', string)
+
+
 app.jinja_env.filters['get_caption'] = get_media_caption
 app.jinja_env.filters['get_image'] = get_article_image
 app.jinja_env.filters['get_lead'] = get_article_lead
 app.jinja_env.filters['markdown'] = markdown
 app.jinja_env.filters['slugify'] = slugify
 app.jinja_env.filters['len'] = len
+app.jinja_env.filters['twitterify'] = twitterify
 
 
 if __name__ == '__main__':
