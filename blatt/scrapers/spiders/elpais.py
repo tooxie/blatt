@@ -7,7 +7,7 @@ from scrapy.contrib.spiders import CrawlSpider
 from scrapy.contrib.spiders import Rule
 from scrapy.selector import XPathSelector
 
-from blatt.scrapers.spiders.utils import extract, to_markup
+from blatt.scrapers.spiders.utils import to_markup
 from blatt.scrapers.items import Article, Media
 
 MONTHS = {
@@ -51,13 +51,13 @@ class ElPaisSpider(CrawlSpider):
     def parse_article(self, response):
         selector = XPathSelector(response)
 
-        title = extract(selector.select('//div[@class="title"]/h1/text()'))
-        deck = extract(selector.select('//div[@class="supra"]/h2/text()'))
-        lead = extract(selector.select('//div[@class="pc"]/p/text()'))
+        title = extract(selector.select('//div[@class="title"]/h1'))
+        deck = extract(selector.select('//div[@class="supra"]/h2'))
+        lead = extract(selector.select('//div[@class="pc"]/p'))
         date = parse_date(selector.select('//span[@class="published"]/text()'))
         body = parse_body(selector.select('//div[@class="article-content"]/p'))
         media = get_media(selector, self.url)
-        author = extract(selector.select('//div[@class="signature"]/text()'))
+        author = extract(selector.select('//div[@class="signature"]'))
         authors = [author] if author else []
         section = extract(selector.select('//div[@class="middle-content"]'
                                           '/a/text()'), default=u'Deportes')
@@ -74,7 +74,7 @@ def extract(element, default=None):
     except IndexError:
         value = default or ''
 
-    return value
+    return to_markup(value)
 
 
 def parse_date(element):
