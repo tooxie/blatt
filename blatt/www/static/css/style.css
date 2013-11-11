@@ -14,12 +14,9 @@ h2 img {
     min-height:350px;
 }
 .article-inner {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.9);
     padding:1em;
     min-height:350px;
-}
-.article:hover {
-    background-color: white;
 }
 .date {
     float:right;
