@@ -39,20 +39,6 @@ class InstanceURL(String):
         return '/%s/%i' % (self.url.strip('/'), value)
 
 
-class ManyToManyField(Raw):
-    def __init__(self, nested):
-        self.nested = nested
-
-        super(ManyToManyField, self).__init__()
-
-    def output(self, key, obj):
-        items = list()
-        for item in getattr(obj, key):
-            items.append(marshal(item, self.nested))
-
-        return items
-
-
 class ForeignKeyField(String):
     def __init__(self, endpoint, fields=None):
         default_fields = {
@@ -60,7 +46,8 @@ class ForeignKeyField(String):
             'url': InstanceURL(endpoint),
         }
 
-        [default_fields.update({key: String}) for key in fields]
+        if fields:
+            [default_fields.update({key: String}) for key in fields]
 
         self.fields = default_fields
 
