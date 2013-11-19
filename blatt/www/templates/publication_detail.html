@@ -1,42 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="container">
-        <h1>
-            {{ publication.name }}
-        </h1>
-        <p>
-            <a href="{{ publication.url }}">{{ publication.url }}</a>
-        </p>
-        <!-- Example row of columns -->
-        <div class="row">
-            {% for article in articles %}
-                <div class="col-lg-4 article" style="background-image:url({{ article|get_image }})">
-                    <div class="article-inner">
-                        <div>
-                            <span class="date">{{ article.publication_date }}</span>
-                            <div class="authors">
-                                {% for author in article.authors %}
-                                    <div class="author">{{ author.name|twitterify|safe }}</div>
-                                {% endfor %}
-                            </div>
+    <h1>
+        {{ publication.name }}
+    </h1>
+    <p>
+        <a href="{{ publication.url }}">{{ publication.url }}</a>
+    </p>
+    <!-- Example row of columns -->
+    <div class="row">
+        {% for article in articles %}
+            <div class="col-lg-4 article" style="background-image:url({{ article|get_image }})">
+                <div class="article-inner">
+                    <div>
+                        <span class="date">{{ article.publication_date }}</span>
+                        <div class="authors">
+                            {% for author in article.authors %}
+                                <div class="author">{{ author.name|twitterify|safe }}</div>
+                            {% endfor %}
                         </div>
-                        <h2>
-                            <a href="/{{ publication.slug }}/{{ article.title|slugify }}/{{ article.pk }}">{{ article.title }}</a>
-                        </h2>
-                        <p class="lead">
-                            {{ article|get_lead }}
-                        </p>
-                        <p>
-                            <a href="{{ article.url }}">{{ article.url }}</a>
-                        </p>
                     </div>
+                    <h2>
+                        <a href="/{{ publication.slug }}/{{ article.title|slugify }}/{{ article.pk }}">{{ article.title }}</a>
+                    </h2>
+                    <p class="lead">
+                        {{ article|get_lead }}
+                    </p>
+                    <p>
+                        <a href="{{ article.url }}">{{ article.url }}</a>
+                    </p>
                 </div>
-            {% endfor %}
-        </div>
-
-        <hr>
-        <footer>
-            <p>&copy; 2013 Whatever</p>
-        </footer>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

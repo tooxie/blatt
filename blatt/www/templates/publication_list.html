@@ -1,42 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="jumbotron">
-        <div class="container">
-            <h1>
-                Blatt
-            </h1>
-            <p>
-                Leé los diarios de otra forma.
-            </p>
-            <p>
-                Blatt es un experimento, una forma diferente de ver la prensa escrita.
-            </p>
-            <!--
-            <p>
-                <a class="btn btn-primary btn-lg">Learn more &raquo;</a>
-            </p>
-            -->
-        </div>
+        <h1>
+            Blatt
+        </h1>
+        <p>
+            No leas un diario, informate.
+        </p>
+        <p>
+            Blatt intenta atacar distintos problemas identificados en la prensa escrita y
+            proveer una posible solución. Al mismo tiempo, si esa solución no te satisface,
+            Blatt te proporciona todas las herramientas para que crees una alternativa vos
+            misma/o.
+        </p>
+        <p>
+            <a href="/about/" class="btn btn-primary btn-lg">&iquest;Querés saber más?</a>
+        </p>
     </div>
 
-    <div class="container">
-        <!-- Example row of columns -->
-        <div class="row">
-            {% for publication in publications %}
-            <div class="col-lg-4">
-                <h2>
-                    <a href="/{{ publication.slug }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
-                </h2>
-                <p>
-                    <a class="btn btn-default" href="/{{ publication.slug }}">Ver artículos &raquo;</a>
-                </p>
-            </div>
-            {% endfor %}
+    <!-- Example row of columns -->
+    <div class="row">
+        {% for publication in publications %}
+        <div class="col-lg-4">
+            <h2>
+                <a href="/{{ publication.slug }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
+            </h2>
+            <p>
+                <a class="btn btn-default" href="/{{ publication.slug }}">Ver artículos &raquo;</a>
+            </p>
         </div>
-
-        <hr>
-        <footer>
-            <p>&copy; 2013 Whatever</p>
-        </footer>
+        {% endfor %}
     </div>
 {% endblock %}

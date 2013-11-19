@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
+import hashlib
+import datetime
 
 from sqlalchemy import (create_engine, Column, Integer, String, Text, DateTime,
                         Table)
@@ -119,3 +121,41 @@ class Media(Base):
     article = relationship('Article', backref=backref('medias', order_by=pk))
     photographer = relationship('Photographer',
                                 backref=backref('photos', order_by=pk))
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    pk = Column(Integer, primary_key=True)
+    email = Column(String, nullable=False, unique=True)
+    password = Column(String)
+    salt = Column(String)
+
+    def __repr__(self):
+        return "<User('%s')>" % self.email
+
+    def set_password(self, password, secret_key):
+        self.salt = mk_salt()
+        self.password = self.mk_password(password, secret_key)
+
+    def mk_password(self, password, secret_key):
+        return mk_password(password, secret_key, self.salt)
+
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return self.pk
+
+    def is_anonymous(self):
+        return False
+
+def mk_salt():
+    salt = str(datetime.datetime.now())
+
+    return hashlib.md5(salt).hexdigest()
+
+def mk_password(password, secret_key, salt):
+    _passwd = '%s#*%s$@%s' % (password, secret_key, salt)
+
+    return hashlib.sha512(_passwd).hexdigest()

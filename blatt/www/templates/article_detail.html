@@ -1,49 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="container">
-        <h1>
-            {{ article.title }}
-        </h1>
-        {% if article.deck %}
-            <p>
-                {{ article.deck }}
-            </p>
-        {% endif %}
+    <h1>
+        {{ article.title }}
+    </h1>
+    {% if article.deck %}
         <p>
-            {% for media in article.medias %}
-                <a href="{{ media.url }}" class="media">
-                    <img src="{{ media.url }}" alt="{{ media|get_caption }}" title="{{ media|get_caption }}">
-                </a>
-            {% endfor %}
+            {{ article.deck }}
         </p>
-        {% if article.lead %}
-            <p>
-                {{ article.lead }}
-            </p>
-            <hr>
-        {% endif %}
+    {% endif %}
+    <p>
+        {% for media in article.medias %}
+            <a href="{{ media.url }}" class="media">
+                <img src="{{ media.url }}" alt="{{ media|get_caption }}" title="{{ media|get_caption }}">
+            </a>
+        {% endfor %}
+    </p>
+    {% if article.lead %}
         <p>
-            {{ article.body|markdown|safe }}
+            {{ article.lead }}
         </p>
-        <p>
-            <a href="{{ article.url }}">{{ article.url }}</a>
-        </p>
-
-        {% if map %}
-            {{ map.render()|safe }}
-        {% endif %}
-
-        <!-- Publication -->
-        <h2>
-            {{ publication.name }}
-        </h2>
-        <p>
-            <a href="{{ publication.url }}">{{ publication.url }}</a>
-        </p>
-
         <hr>
-        <footer>
-            <p>&copy; 2013 Whatever</p>
-        </footer>
-    </div>
+    {% endif %}
+    <p>
+        {{ article.body|markdown|safe }}
+    </p>
+    <p>
+        <a href="{{ article.url }}">{{ article.url }}</a>
+    </p>
+
+    {% if map %}
+        {{ map.render()|safe }}
+    {% endif %}
+
+    <!-- Publication -->
+    <h2>
+        {{ publication.name }}
+    </h2>
+    <p>
+        <a href="{{ publication.url }}">{{ publication.url }}</a>
+    </p>
 {% endblock %}

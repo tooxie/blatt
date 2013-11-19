@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-import re
+from flask import Flask, render_template, abort, request, redirect, url_for
+from flask.ext.login import login_user, logout_user, current_user
 
-from flask import Flask, render_template, abort
-from markdown import markdown
-from slugify import slugify
-
-from blatt.persistence import session, Publication, Article
+from blatt.persistence import session, Publication, Article, User
+from blatt.www.jinjafilters import register_filters
+from blatt.www.auth import register_login_manager
+from blatt.www.forms import LoginForm, SignupForm
 
 app = Flask(__name__)
 app.config.from_object('blatt.www.config')
-
-TWIT_RE = re.compile(r'@([A-Za-z0-9_]+)')
 
 
 @app.route('/')
@@ -20,8 +18,16 @@ def index():
     return render_template('publication_list.html', publications=publications)
 
 
+@app.route('/about')
+def about():
+    publications = session.query(Publication).all()
+
+    return render_template('about.html', publications=publications)
+
+
 @app.route('/<slug>')
 def publication_detail(slug):
+    publications = session.query(Publication).all()
     try:
         publication = session.query(Publication).filter_by(slug=slug).one()
     except:
@@ -32,7 +38,7 @@ def publication_detail(slug):
             Article.publication_date.desc(), Article.title).limit(30)
 
     return render_template('publication_detail.html', publication=publication,
-                           articles=articles)
+                           articles=articles, publications=publications)
 
 
 class Map:
@@ -50,6 +56,7 @@ class Map:
 
 @app.route('/<publication_slug>/<article_slug>/<int:article_pk>')
 def article_detail(publication_slug, article_slug, article_pk):
+    publications = session.query(Publication).all()
     map = None
     article = session.query(Article).get(article_pk)
     if not article:
@@ -65,57 +72,64 @@ def article_detail(publication_slug, article_slug, article_pk):
         map = Map(article)
 
     return render_template('article_detail.html', publication=publication,
-                           article=article, map=map)
+                           article=article, map=map, publications=publications)
 
 
-def get_article_image(article):
-    if len(article.medias):
-        return article.medias[0].url
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    if not current_user.is_anonymous():
+        return redirect('/')
 
-    return ''
+    login_form = LoginForm(request.form, secret_key=app.config['SECRET_KEY'])
 
+    if request.method == 'POST' and login_form.validate():
+        email = request.form.get('email')
+        password = request.form.get('password', '')
 
-def get_article_lead(article):
-    lead = article.lead
-    if not lead:
-        lead = article.deck
+        user = session.query(User).filter_by(email=email).one()
 
-    if not lead:
-        lead = article.body[:article.body.find('.')]
+        login_user(user)
+        return redirect('/')
 
-    words = lead.split(' ')
-    if len(words) > 20:
-        lead = ' '.join(words[:20]) + '...'
+    return render_template('login.html', form=login_form)
 
-    return lead
+@app.route("/logout/")
+def logout():
+    logout_user()
 
+    return render_template('logout.html')
 
-def get_media_caption(media):
-    caption = media.caption or ''
-    author = media.photographer.name if media.photographer else ''
+@app.route('/signup/', methods=['GET', 'POST'])
+def signup():
+    if not current_user.is_anonymous():
+        return redirect('/')
 
-    if caption:
-        if author:
-            caption = u'%s (Foto: %s)' % (caption, author)
-    else:
-        if author:
-            caption = u'Foto: %s' % author
+    signup_form = SignupForm(request.form)
 
-    return caption
+    if request.method == 'POST' and signup_form.validate():
+        email = request.form.get('email')
+        password = request.form.get('password', '')
 
+        user = User(email=email)
+        user.set_password(password, app.config['SECRET_KEY'])
 
-def twitterify(string):
-    return TWIT_RE.sub('<a href="https://twitter.com/\\1">@\\1</a>', string)
+        session.add(user)
+        session.commit()
 
+        return redirect('/signup/done/')
 
-app.jinja_env.filters['get_caption'] = get_media_caption
-app.jinja_env.filters['get_image'] = get_article_image
-app.jinja_env.filters['get_lead'] = get_article_lead
-app.jinja_env.filters['markdown'] = markdown
-app.jinja_env.filters['slugify'] = slugify
-app.jinja_env.filters['len'] = len
-app.jinja_env.filters['twitterify'] = twitterify
+    return render_template('signup.html', form=signup_form)
 
+@app.route('/password-recovery/', methods=['GET', 'POST'])
+def password_recovery():
+    return render_template('password_recovery.html')
+
+@app.route('/signup/done/', methods=['GET'])
+def signup_done():
+    return render_template('signup_done.html')
+
+register_login_manager(app)
+register_filters(app)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

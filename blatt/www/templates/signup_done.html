@@ -1,0 +1,10 @@
+{% extends "clean.html" %}
+{% block content %}
+    <h2>
+        Registro completo
+    </h2>
+    <p>
+        Su registro ha finalizado con éxito. Ya puede <a href="{{ url_for('login') }}">ingresar</a>
+        utilizando el e-mail y la clave elegidas.
+    </p>
+{% endblock %}

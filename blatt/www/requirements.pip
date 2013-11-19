@@ -1,3 +1,5 @@
 Flask
-sqlalchemy
+Flask-Login
 Markdown
+sqlalchemy
+wtforms

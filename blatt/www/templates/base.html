@@ -19,21 +19,37 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/">Blatt</a>
-                    {% if publication %}
-                        <a class="navbar-brand" href="/{{ publication.slug }}">{{ publication.name }}</a>
+                </div>
+                <div class="navbar-right navbar-form btn-group">
+                    {% if current_user.is_anonymous() %}
+                        <a href="/login/" class="btn btn-default">Entrar</a>
+                        <a href="/signup/" class="btn btn-default btn-success">Registrarse</a>
+                    {% else %}
+                        <a href="/logout/" class="btn btn-default">Salir</a>
+                        <a href="/profile/" class="btn btn-default btn-success">{{ current_user.email }}</a>
                     {% endif %}
                 </div>
-                <!--
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contact">Contact</a></li>
+                        {% for newspaper in publications %}
+                            <li{% if publication == newspaper %} class="active"{% endif %}>
+                                <a href="/{{ newspaper.slug }}">{{ newspaper.name }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
-                -->
             </div>
         </div>
-        {% block content %}{% endblock %}
+
+        <div class="container">
+            {% block content %}{% endblock %}
+
+            <hr>
+            <div id="footer">
+                &copy; 2013 Whatever.<br>
+                <a href="https://github.com/tooxie/blatt">Blatt</a> es
+                <a href="https://es.wikipedia.org/wiki/Software_libre">Software Libre</a>.
+            </div>
+        </div>
     </body>
 </html>

@@ -1,0 +1,30 @@
+{% extends "clean.html" %}
+{% block content %}
+    <form class="form-signin" method="POST">
+        <h2 class="form-signin-heading">
+            Registrarse
+        </h2>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <p class="error">
+                <ul>
+                    {% for error in form.email.errors %}
+                        <li>{{ error|safe }}</li>
+                    {% endfor %}
+                </ul>
+            </p>
+        {% endif %}
+
+        {{ form.password }}
+        {% if form.password.errors %}
+            <p class="error">
+                <ul>
+                    {% for error in form.password.errors %}
+                        <li>{{ error|safe }}</li>
+                    {% endfor %}
+                </ul>
+            </p>
+        {% endif %}
+        <button class="btn btn-lg btn-success btn-block" type="submit">Registrarme</button>
+    </form>
+{% endblock %}
