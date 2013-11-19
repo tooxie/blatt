@@ -6,6 +6,11 @@ from flask.ext.restful import Resource, marshal, abort
 
 
 class BlattResource(Resource):
+    def __init__(self, *args, **kwargs):
+        self.options = None
+
+        super(BlattResource, self).__init__(*args, **kwargs)
+
     def get(self, obj_id=None):
         if obj_id:
             return self._one(obj_id)
@@ -28,7 +33,7 @@ class BlattResource(Resource):
 
     def get_options(self):
         if not self.options:
-            options = request.args.to_dict()
+            self.options = request.args.to_dict()
 
         return self.options
 
