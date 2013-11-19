@@ -37,7 +37,7 @@ class ArticleResource(BlattResource):
     def get_one(self, art_id, options=None):
         return session.query(Article).get(art_id)
 
-    def get_all(self, options=None):
+    def get_all(self):
         return session.query(Article)
 
 
@@ -56,7 +56,7 @@ class PublicationResource(BlattResource):
     def get_one(self, pub_id, options=None):
         return session.query(Publication).get(pub_id)
 
-    def get_all(self, options=None):
+    def get_all(self):
         return session.query(Publication)
 
 
@@ -71,7 +71,7 @@ class JournalistResource(BlattResource):
     def get_one(self, j_id, options=None):
         return session.query(Journalist).get(j_id)
 
-    def get_all(self, options=None):
+    def get_all(self):
         return session.query(Journalist)
 
 
@@ -88,5 +88,5 @@ class MediaResource(BlattResource):
     def get_one(self, media_id, options=None):
         return session.query(Media).get(media_id)
 
-    def get_all(self, options=None):
+    def get_all(self):
         return session.query(Media)

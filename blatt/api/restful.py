@@ -7,7 +7,6 @@ from flask.ext.restful import Resource, marshal, abort
 
 class BlattResource(Resource):
     def get(self, obj_id=None):
-        options = request.args.to_dict()
         if obj_id:
             try:
                 result = self.get_one(obj_id)
@@ -20,6 +19,12 @@ class BlattResource(Resource):
             return marshal(result, self.get_fields())
 
         return self.paginate(result)
+
+    def get_options(self):
+        if not self.options:
+            options = request.args.to_dict()
+
+        return self.options
 
     def filter(self, queryset, filters):
         """
@@ -35,7 +40,7 @@ class BlattResource(Resource):
         It reads "filter by publication_pk, as publication in the GET query".
         """
 
-        options = request.args.to_dict()
+        options = self.get_options()
         filters = {}
         if not hasattr(self, 'get_filters'):
             return queryset
@@ -52,7 +57,7 @@ class BlattResource(Resource):
         return queryset
 
     def paginate(self, queryset):
-        options = request.args.to_dict()
+        options = self.get_options()
         queryset = self.filter(queryset, options)
 
         try:
