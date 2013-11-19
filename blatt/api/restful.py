@@ -84,5 +84,6 @@ class BlattResource(Resource):
             'item_count': count,
             'items': marshal(items, self.get_fields()),
             'page': page_number,
+            'page_size': limit,
             'pages': total_pages,
         }
