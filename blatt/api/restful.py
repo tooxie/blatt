@@ -8,15 +8,21 @@ from flask.ext.restful import Resource, marshal, abort
 class BlattResource(Resource):
     def get(self, obj_id=None):
         if obj_id:
-            try:
-                result = self.get_one(obj_id)
-            except:
-                abort(404)
-        else:
-            result = self.get_all(options)
+            return self._one(obj_id)
 
-        if obj_id:
-            return marshal(result, self.get_fields())
+        return self._all()
+
+
+    def _one(self, obj_id):
+        try:
+            result = self.get_one(obj_id)
+        except:
+            abort(404)
+
+        return marshal(result, self.get_fields())
+
+    def _all(self):
+        result = self.get_all()
 
         return self.paginate(result)
 
