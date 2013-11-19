@@ -18,14 +18,14 @@ def index():
     return render_template('publication_list.html', publications=publications)
 
 
-@app.route('/about')
+@app.route('/about/')
 def about():
     publications = session.query(Publication).all()
 
     return render_template('about.html', publications=publications)
 
 
-@app.route('/<slug>')
+@app.route('/<slug>/')
 def publication_detail(slug):
     publications = session.query(Publication).all()
     try:
@@ -54,7 +54,7 @@ class Map:
                                title=self.mark_title)
 
 
-@app.route('/<publication_slug>/<article_slug>/<int:article_pk>')
+@app.route('/<publication_slug>/<article_slug>/<int:article_pk>/')
 def article_detail(publication_slug, article_slug, article_pk):
     publications = session.query(Publication).all()
     map = None
@@ -120,11 +120,11 @@ def signup():
 
     return render_template('signup.html', form=signup_form)
 
-@app.route('/password-recovery/', methods=['GET', 'POST'])
+@app.route('/password-recovery/')
 def password_recovery():
     return render_template('password_recovery.html')
 
-@app.route('/signup/done/', methods=['GET'])
+@app.route('/signup/done/')
 def signup_done():
     return render_template('signup_done.html')
 
