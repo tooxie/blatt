@@ -6,6 +6,7 @@ from blatt.api.resources import (PublicationResource, ArticleResource,
                                  JournalistResource, MediaResource)
 
 app = Flask(__name__)
+app.config.from_object('blatt.api.config')
 api = Api(app)
 
 api.add_resource(PublicationResource, '/publications/',
