@@ -1,3 +1,6 @@
+blatt.db
+config.py
+
 *.py[cod]
 
 # C extensions
