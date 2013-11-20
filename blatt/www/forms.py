@@ -28,7 +28,7 @@ class SignupForm(Form):
                              validators=[InputRequired(REQUIRED_MSG)])
 
 
-class LoginForm(SignupForm):
+class LoginForm(Form):
     email = StringField(u'e-Mail', widget=InputWidget(),
                         validators=[InputRequired(REQUIRED_MSG)])
     password = PasswordField(u'Password', widget=PasswordWidget(),
