@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+import datetime
 
 from flask.ext.login import current_user
 from markdown import markdown
@@ -55,13 +56,29 @@ def get_user():
     return current_user
 
 
+def untime(timestamp):
+    """
+    Given a timestamp, checks if it contains hour information (i.e. hour,
+    minute and second are not zero). If they are, then a datetime.date object
+    is returned instead.
+    """
+
+    # Same as timestamp but with hour, minutes and seconds set to 0
+    _date = datetime.datetime(timestamp.year, timestamp.month, timestamp.day)
+
+    if (timestamp - _date).seconds == 0:
+        return datetime.date(timestamp.year, timestamp.month, timestamp.day)
+
+    return timestamp
+
 def register_filters(app):
     app.jinja_env.filters['get_caption'] = get_media_caption
     app.jinja_env.filters['get_image'] = get_article_image
     app.jinja_env.filters['get_lead'] = get_article_lead
+    app.jinja_env.filters['len'] = len
     app.jinja_env.filters['markdown'] = markdown
     app.jinja_env.filters['slugify'] = slugify
-    app.jinja_env.filters['len'] = len
+    app.jinja_env.filters['split'] = lambda x: x.split('@')[0]
     app.jinja_env.filters['str'] = str
     app.jinja_env.filters['twitterify'] = twitterify
-    app.jinja_env.filters['split'] = lambda x: x.split('@')[0]
+    app.jinja_env.filters['untime'] = untime

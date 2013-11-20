@@ -5,10 +5,11 @@ from flask.ext.login import (login_user, logout_user, current_user,
                              login_required)
 
 from blatt.persistence import session, Publication, Article, User
-from blatt.www.jinjafilters import register_filters
 from blatt.www.auth import register_login_manager
 from blatt.www.forms import (LoginForm, SignupForm, ProfileForm,
                              ProfileConfirmationForm)
+from blatt.www.jinjafilters import register_filters
+from blatt.www.pagination import Pagination
 
 app = Flask(__name__)
 app.config.from_object('blatt.www.config')
@@ -25,18 +26,32 @@ def about():
 
 
 @app.route('/<slug>/')
-def publication_detail(slug):
+def article_list(slug):
     try:
         publication = session.query(Publication).filter_by(slug=slug).one()
     except:
         abort(404)
 
-    articles = session.query(Article).filter_by(
-        publication=publication).order_by(
-            Article.publication_date.desc(), Article.title).limit(30)
+    try:
+        page = int(request.args.get('page', 1))
+    except ValueError:
+        page = 1
+    try:
+        page_size = int(request.args.get('page_size', 30))
+    except ValueError:
+        page_size = 30
 
-    return render_template('publication_detail.html', publication=publication,
-                           articles=articles)
+    queryset = session.query(Article).filter_by(
+        publication=publication).order_by(
+            Article.publication_date.desc(), Article.title)
+
+    count = queryset.count()
+    articles = queryset.offset(page * page_size).limit(page_size)
+
+    pagination = Pagination(page, page_size, count)
+
+    return render_template('article_list.html', publication=publication,
+                           articles=articles, pagination=pagination)
 
 
 class Map:
