@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from math import ceil
+from math import floor
 
 
 class Pagination(object):
@@ -11,7 +11,7 @@ class Pagination(object):
 
     @property
     def pages(self):
-        return int(ceil(self.total_count / float(self.per_page)))
+        return int(floor(self.total_count / float(self.per_page)))
 
     @property
     def has_prev(self):
