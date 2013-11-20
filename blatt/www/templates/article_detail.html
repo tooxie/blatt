@@ -3,8 +3,16 @@
     <h1>
         {{ article.title }}
     </h1>
+    <p class="authors">
+        Por
+        {% for author in article.authors %}
+            {% if loop.index > 1 %} y {% endif %}
+            <span class="author">{{ author.name|twitterify|safe }}</span>
+        {% endfor %}<br>
+        {{ article.publication_date|untime }}
+    </p>
     {% if article.deck %}
-        <p>
+        <p class="deck">
             {{ article.deck }}
         </p>
     {% endif %}
@@ -16,14 +24,15 @@
         {% endfor %}
     </p>
     {% if article.lead %}
-        <p>
+        <p class="lead">
             {{ article.lead }}
         </p>
         <hr>
     {% endif %}
-    <p>
+    <div class="body">
         {{ article.body|markdown|safe }}
-    </p>
+    </div>
+
     <p>
         <a href="{{ article.url }}">{{ article.url }}</a>
     </p>
