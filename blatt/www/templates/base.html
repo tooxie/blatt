@@ -21,7 +21,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        {% for newspaper in publications %}
+                        {% for newspaper in get_publications() %}
                             <li{% if publication == newspaper %} class="active"{% endif %}>
                                 <a href="/{{ newspaper.slug }}">{{ newspaper.name }}</a>
                             </li>

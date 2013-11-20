@@ -16,21 +16,16 @@ app.config.from_object('blatt.www.config')
 
 @app.route('/')
 def index():
-    publications = session.query(Publication).all()
-
-    return render_template('publication_list.html', publications=publications)
+    return render_template('publication_list.html')
 
 
 @app.route('/about/')
 def about():
-    publications = session.query(Publication).all()
-
-    return render_template('about.html', publications=publications)
+    return render_template('about.html')
 
 
 @app.route('/<slug>/')
 def publication_detail(slug):
-    publications = session.query(Publication).all()
     try:
         publication = session.query(Publication).filter_by(slug=slug).one()
     except:
@@ -41,7 +36,7 @@ def publication_detail(slug):
             Article.publication_date.desc(), Article.title).limit(30)
 
     return render_template('publication_detail.html', publication=publication,
-                           articles=articles, publications=publications)
+                           articles=articles)
 
 
 class Map:
@@ -59,7 +54,6 @@ class Map:
 
 @app.route('/<publication_slug>/<article_slug>/<int:article_pk>/')
 def article_detail(publication_slug, article_slug, article_pk):
-    publications = session.query(Publication).all()
     map = None
     article = session.query(Article).get(article_pk)
     if not article:
@@ -75,7 +69,7 @@ def article_detail(publication_slug, article_slug, article_pk):
         map = Map(article)
 
     return render_template('article_detail.html', publication=publication,
-                           article=article, map=map, publications=publications)
+                           article=article, map=map)
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -138,7 +132,6 @@ def signup_done():
 def profile():
     profile_form = ProfileForm(name=current_user.name,
                                email=current_user.email)
-    publications = session.query(Publication).all()
 
     if request.method == 'POST':
         profile_form = ProfileForm(request.form)
@@ -152,8 +145,7 @@ def profile():
             return render_template('profile_confirmation.html',
                                    form=confirmation_form)
 
-    return render_template('profile.html', form=profile_form,
-                           publications=publications)
+    return render_template('profile.html', form=profile_form)
 
 @app.route('/profile/confirm/', methods=['POST'])
 @login_required
@@ -177,6 +169,12 @@ def profile_confirmation():
         return redirect('profile')
 
     return render_template('profile_confirmation.html', form=confirmation_form)
+
+
+# Jinja globals
+app.jinja_env.globals.update({
+    'get_publications': lambda: session.query(Publication).all()
+})
 
 register_login_manager(app)
 register_filters(app)
