@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, abort, request, redirect, url_for
+from flask import (Flask, render_template, abort, request, redirect, url_for,
+                   flash)
 from flask.ext.login import login_user, logout_user, current_user
 
 from blatt.persistence import session, Publication, Article, User
 from blatt.www.jinjafilters import register_filters
 from blatt.www.auth import register_login_manager
-from blatt.www.forms import LoginForm, SignupForm
+from blatt.www.forms import (LoginForm, SignupForm, ProfileForm,
+                             ProfileConfirmationForm)
 
 app = Flask(__name__)
 app.config.from_object('blatt.www.config')
@@ -127,6 +129,49 @@ def password_recovery():
 @app.route('/signup/done/')
 def signup_done():
     return render_template('signup_done.html')
+
+@app.route('/profile/', methods=['GET', 'POST'])
+def profile():
+    profile_form = ProfileForm(name=current_user.name,
+                               email=current_user.email)
+    publications = session.query(Publication).all()
+
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.form)
+
+        if profile_form.validate():
+            secret_key = app.config['SECRET_KEY']
+            confirmation_form = ProfileConfirmationForm(request.form,
+                                                        secret_key=secret_key)
+            confirmation_form.sign()
+
+            return render_template('profile_confirmation.html',
+                                   form=confirmation_form)
+
+    return render_template('profile.html', form=profile_form,
+                           publications=publications)
+
+@app.route('/profile/confirm/', methods=['POST'])
+def profile_confirmation():
+    secret_key = app.config['SECRET_KEY']
+    confirmation_form = ProfileConfirmationForm(request.form,
+                                                secret_key=secret_key)
+
+    if confirmation_form.validate():
+        current_user.name = request.form.get('name')
+        current_user.email = request.form.get('email')
+
+        if request.form.get('password'):
+            current_user.set_password(request.form.get('password'))
+
+        session.add(current_user)
+        session.commit()
+
+        flash(u'Perfil actualizado con éxito')
+
+        return redirect('profile')
+
+    return render_template('profile_confirmation.html', form=confirmation_form)
 
 register_login_manager(app)
 register_filters(app)

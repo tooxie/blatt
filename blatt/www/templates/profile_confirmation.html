@@ -1,0 +1,23 @@
+{% extends "clean.html" %}
+{% block content %}
+    <form class="form-signin" action="{{ url_for('profile_confirmation') }}" method="POST">
+        <h2 class="form-signin-heading">
+            Ingrese su contraseña
+        </h2>
+        {% for field in form %}
+            {{ field }}
+        {% endfor %}
+
+        {% for error in form.current_password.errors %}
+            <p class="error">
+                {{ error }}
+            </p>
+        {% endfor %}
+
+        <p>
+            Ingrese su contraseña para confirmar los cambios a su perfil.
+        </p>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Guardar</button>
+    </form>
+{% endblock %}

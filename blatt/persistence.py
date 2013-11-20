@@ -127,6 +127,7 @@ class User(Base):
     __tablename__ = 'users'
 
     pk = Column(Integer, primary_key=True)
+    name = Column(String)
     email = Column(String, nullable=False, unique=True)
     password = Column(String)
     salt = Column(String)

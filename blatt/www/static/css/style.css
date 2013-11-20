@@ -32,3 +32,46 @@ h2 img {
     border:1px solid black;
     max-width:100%;
 }
+form {
+    width: 100%;
+    padding: 15px;
+    margin: 0 auto;
+}
+form .checkbox {
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+form .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+form .form-control:focus {
+    z-index: 2;
+}
+form input[name="name"],
+.form-profile input[name="new_password"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-profile input[name="new_password_again"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.form-profile input[name="email"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+hr {
+    border: 1px inset white;
+}
+.success {
+    color: green;
+}
