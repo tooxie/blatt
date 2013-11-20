@@ -19,15 +19,6 @@
                     </button>
                     <a class="navbar-brand" href="/">Blatt</a>
                 </div>
-                <div class="navbar-right navbar-form btn-group">
-                    {% if current_user.is_anonymous() %}
-                        <a href="/login/" class="btn btn-default">Entrar</a>
-                        <a href="/signup/" class="btn btn-default btn-success">Registrarse</a>
-                    {% else %}
-                        <a href="/logout/" class="btn btn-default">Salir</a>
-                        <a href="/profile/" class="btn btn-default btn-success">{{ current_user.email }}</a>
-                    {% endif %}
-                </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         {% for newspaper in publications %}
@@ -36,6 +27,15 @@
                             </li>
                         {% endfor %}
                     </ul>
+                    <div class="navbar-right navbar-form btn-group">
+                        {% if current_user.is_anonymous() %}
+                            <a href="/login/" class="btn btn-default">Entrar</a>
+                            <a href="/signup/" class="btn btn-default btn-success">Registrarse</a>
+                        {% else %}
+                            <a href="/logout/" class="btn btn-default">Salir</a>
+                            <a href="/profile/" class="btn btn-default btn-success">{{ current_user.email }}</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
