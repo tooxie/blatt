@@ -38,7 +38,15 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
 hr {
     border: 1px inset white;
+}
+.success {
+    color:green;
+}
+input.error {
+    border-color:red;
+}
+p.error {
+    color:red;
 }

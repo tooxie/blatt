@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import (Flask, render_template, abort, request, redirect, url_for,
                    flash)
-from flask.ext.login import login_user, logout_user, current_user
+from flask.ext.login import (login_user, logout_user, current_user,
+                             login_required)
 
 from blatt.persistence import session, Publication, Article, User
 from blatt.www.jinjafilters import register_filters
@@ -91,7 +92,8 @@ def login():
         user = session.query(User).filter_by(email=email).one()
 
         login_user(user)
-        return redirect('/')
+
+        return redirect(request.args.get('next', '/'))
 
     return render_template('login.html', form=login_form)
 
@@ -123,6 +125,7 @@ def signup():
     return render_template('signup.html', form=signup_form)
 
 @app.route('/password-recovery/')
+@login_required
 def password_recovery():
     return render_template('password_recovery.html')
 
@@ -131,6 +134,7 @@ def signup_done():
     return render_template('signup_done.html')
 
 @app.route('/profile/', methods=['GET', 'POST'])
+@login_required
 def profile():
     profile_form = ProfileForm(name=current_user.name,
                                email=current_user.email)
@@ -152,6 +156,7 @@ def profile():
                            publications=publications)
 
 @app.route('/profile/confirm/', methods=['POST'])
+@login_required
 def profile_confirmation():
     secret_key = app.config['SECRET_KEY']
     confirmation_form = ProfileConfirmationForm(request.form,

@@ -8,6 +8,8 @@ login_manager = LoginManager()
 
 def register_login_manager(app):
     login_manager.init_app(app)
+    login_manager.login_view = 'login'
+    login_manager.login_message = u'Necesita identificarse para poder acceder'
 
 
 @login_manager.user_loader

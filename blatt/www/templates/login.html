@@ -4,6 +4,14 @@
         <h2 class="form-signin-heading">
             Ingresar
         </h2>
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p class="error">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endwith %}
+
         {{ form.email }}
         {% for error in form.email.errors %}
             <p class="error">

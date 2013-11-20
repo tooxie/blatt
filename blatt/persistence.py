@@ -151,6 +151,9 @@ class User(Base):
     def is_anonymous(self):
         return False
 
+    def is_authenticated(self):
+        return True
+
 def mk_salt():
     salt = str(datetime.datetime.now())
 
