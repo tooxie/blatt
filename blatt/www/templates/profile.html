@@ -1,50 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
-    <form class="form-profile col-xs-12 col-sm-6 col-lg-4" method="POST">
+    <div class="form-profile col-xs-12 col-sm-6 col-lg-4">
         <h2>
             Mis datos
         </h2>
-        {% with messages = get_flashed_messages() %}
-            {% for message in messages %}
-                <p class="success">
-                    {{ message }}
+        <form method="POST">
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    <p class="success">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endwith %}
+
+            {{ form.name }}
+            {% for error in form.name.errors %}
+                <p class="error">
+                    {{ error }}
                 </p>
             {% endfor %}
-        {% endwith %}
 
-        {{ form.name }}
-        {% for error in form.name.errors %}
-            <p class="error">
-                {{ error }}
-            </p>
-        {% endfor %}
+            {{ form.email }}
+            {% for error in form.email.errors %}
+                <p class="error">
+                    {{ error }}
+                </p>
+            {% endfor %}
 
-        {{ form.email }}
-        {% for error in form.email.errors %}
-            <p class="error">
-                {{ error }}
-            </p>
-        {% endfor %}
+            <h3>
+                Cambiar password
+            </h3>
+            {{ form.new_password }}
+            {% for error in form.new_password.errors %}
+                <p class="error">
+                    {{ error }}
+                </p>
+            {% endfor %}
 
-        <h3>
-            Cambiar password
-        </h3>
-        {{ form.new_password }}
-        {% for error in form.new_password.errors %}
-            <p class="error">
-                {{ error }}
-            </p>
-        {% endfor %}
+            {{ form.new_password_again }}
+            {% for error in form.new_password_again.errors %}
+                <p class="error">
+                    {{ error }}
+                </p>
+            {% endfor %}
 
-        {{ form.new_password_again }}
-        {% for error in form.new_password_again.errors %}
-            <p class="error">
-                {{ error }}
-            </p>
-        {% endfor %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Guardar</button>
+        </form>
+    </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Guardar</button>
-    </form>
     <div class="col-xs-12 col-sm-6 col-lg-8">
         <h2>
             Artículos favoritos

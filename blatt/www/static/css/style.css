@@ -70,8 +70,14 @@ form input[name="name"],
     border-top-right-radius: 0;
 }
 hr {
-    border: 1px inset white;
+    border:1px inset white;
 }
 .success {
-    color: green;
+    color:green;
+}
+input.error {
+    border-color:red;
+}
+p.error {
+    color:red;
 }
