@@ -6,7 +6,6 @@
     <p>
         <a href="{{ publication.url }}">{{ publication.url }}</a>
     </p>
-    <!-- Example row of columns -->
     <div class="row">
         {% for article in articles %}
             <div class="col-lg-4 article" style="background-image:url({{ article|get_image }})">
