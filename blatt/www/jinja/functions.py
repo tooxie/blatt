@@ -43,4 +43,5 @@ def register_functions(app):
         'social_buttons': SocialMarkup(app),
         'carousel': mk_carousel,
         'len': len,
+        'site_name': app.config.get('SITE_NAME', 'Blatt'),
     })
