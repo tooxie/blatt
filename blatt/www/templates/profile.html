@@ -52,5 +52,13 @@
         <h2>
             Artículos favoritos
         </h2>
+        <ul>
+            {% for article in current_user.favourites %}
+                <li>
+                    <a href="/{{ article.publication.slug }}/{{ article.title|slugify }}/{{ article.pk }}">{{ article.title }}</a>
+                    ({{ article.publication.name }})
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}
