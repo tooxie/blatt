@@ -63,6 +63,9 @@ def untime(timestamp):
     is returned instead.
     """
 
+    if not timestamp:
+        return ''
+
     # Same as timestamp but with hour, minutes and seconds set to 0
     _date = datetime.datetime(timestamp.year, timestamp.month, timestamp.day)
 

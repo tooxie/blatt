@@ -51,8 +51,8 @@ class ElPaisSpider(CrawlSpider):
     def parse_article(self, response):
         selector = XPathSelector(response)
 
-        title = extract(selector.select('//div[@class="title"]/h1'))
-        deck = extract(selector.select('//div[@class="supra"]/h2'))
+        title = extract(selector.select('//div[@class="title"]/h1/text()'))
+        deck = extract(selector.select('//div[@class="supra"]/h2/text()'))
         lead = extract(selector.select('//div[@class="pc"]/p'))
         date = parse_date(selector.select('//span[@class="published"]/text()'))
         body = parse_body(selector.select('//div[@class="article-content"]/p'))
