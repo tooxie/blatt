@@ -4,7 +4,7 @@ from flask import (Flask, render_template, abort, request, redirect, url_for,
 from flask.ext.login import (login_user, logout_user, current_user,
                              login_required)
 
-from blatt.persistence import session, Publication, Article, User
+from blatt.persistence import session, Publication, Article, User, Journalist
 from blatt.www.auth import register_login_manager
 from blatt.www.forms import (LoginForm, SignupForm, ProfileForm,
                              ProfileConfirmationForm, SignedArticleForm)
@@ -52,6 +52,16 @@ def publication(slug):
 
     return render_template('article_list.html', publication=publication,
                            articles=articles, pagination=pagination)
+
+
+@app.route('/journalist/<name_slug>/<int:journalist_pk>/')
+def journalist(name_slug, journalist_pk):
+    try:
+        journalist = session.query(Journalist).get(journalist_pk)
+    except:
+        abort(404)
+
+    return render_template('journalist.html', journalist=journalist)
 
 
 class Map:
