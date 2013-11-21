@@ -95,6 +95,7 @@ class BlattPipeline(object):
         article.latitude = item.get('latitude')
         article.longitude = item.get('longitude')
         article.publication_date = item['date']
+        article.scraped_date = datetime.datetime.now()
         article.publication = publication
         article.section = get_section(item.get('section'))
 

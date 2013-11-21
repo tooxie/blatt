@@ -81,6 +81,7 @@ class Article(Base):
     latitude = Column(String)
     longitude = Column(String)
     publication_date = Column(DateTime)
+    scraped_date = Column(DateTime)
     publication_pk = Column(Integer, ForeignKey('publications.pk'))
     section_pk = Column(Integer, ForeignKey('sections.pk'))
 
