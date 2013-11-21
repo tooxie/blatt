@@ -16,7 +16,7 @@ app.config.from_object('blatt.www.config')
 
 
 @app.route('/')
-def index():
+def home():
     return render_template('publication_list.html')
 
 
@@ -91,7 +91,7 @@ def article_detail(publication_slug, article_slug, article_pk):
 @login_required
 def social():
     if request.method == 'GET':
-        return redirect(request.args.get('next') or url_for('index'))
+        return redirect(request.args.get('next') or url_for('home'))
 
     secret_key = app.config['SECRET_KEY']
     signed_form = SignedArticleForm(request.form, secret_key=secret_key)
