@@ -53,7 +53,7 @@
             Artículos favoritos
         </h2>
         <ul>
-            {% for article in current_user.favourites %}
+            {% for article in current_user.get_favourites(10) %}
                 <li>
                     <a href="/{{ article.publication.slug }}/{{ article.title|slugify }}/{{ article.pk }}">{{ article.title }}</a>
                     ({{ article.publication.name }})

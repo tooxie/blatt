@@ -163,6 +163,9 @@ class User(Base):
     def favourited(self, article):
         return article in self.favourites
 
+    def get_favourites(self, count):
+        return self.favourites[:count]
+
     def is_active(self):
         return True
 

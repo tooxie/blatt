@@ -4,12 +4,14 @@
         {{ article.title }}
     </h1>
     {{ social_buttons(article) }}
-    <p class="authors">
-        Por
-        {% for author in article.authors %}
-            {% if loop.index > 1 %} y {% endif %}
-            <span class="author">{{ author.name|twitterify|safe }}</span>
-        {% endfor %}<br>
+    <p>
+        {% if article.authors %}
+            Por
+            {% for author in article.authors %}
+                {% if loop.index > 1 %} y {% endif %}
+                <span class="author">{{ author.name|twitterify|safe }}</span>
+            {% endfor %}<br>
+        {% endif %}
         {{ article.publication_date|untime }}
     </p>
     {% if article.deck %}
