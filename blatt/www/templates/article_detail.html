@@ -1,8 +1,12 @@
 {% extends "base.html" %}
+{% block page_title %}{{ article.publication.name }} - {{ article.title }}{% endblock %}
 {% block content %}
     <h1>
         {{ article.title }}
     </h1>
+    <h2>
+        {{ article.publication.name }}
+    </h2>
     {{ social_buttons(article) }}
     <p>
         {% if article.authors %}

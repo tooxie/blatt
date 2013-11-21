@@ -1,9 +1,10 @@
 {% extends "clean.html" %}
+{% block page_title %}Ingresar{% endblock %}
 {% block content %}
     <form class="form-signin" method="POST">
-        <h2 class="form-signin-heading">
+        <h1 class="form-signin-heading">
             Ingresar
-        </h2>
+        </h1>
         {% with messages = get_flashed_messages() %}
             {% for message in messages %}
                 <p class="error">
