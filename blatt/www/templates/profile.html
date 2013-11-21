@@ -60,5 +60,16 @@
                 </li>
             {% endfor %}
         </ul>
+        <h2>
+            Te gusta
+        </h2>
+        <ul>
+            {% for article in current_user.get_liked_articles(10) %}
+                <li>
+                    <a href="/{{ article.publication.slug }}/{{ article.title|slugify }}/{{ article.pk }}">{{ article.title }}</a>
+                    ({{ article.publication.name }})
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

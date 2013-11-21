@@ -166,6 +166,9 @@ class User(Base):
     def get_favourites(self, count):
         return self.favourites[:count]
 
+    def get_liked_articles(self, count):
+        return self.liked_articles[:count]
+
     def is_active(self):
         return True
 
