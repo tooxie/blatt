@@ -19,13 +19,9 @@
             {{ article.deck }}
         </p>
     {% endif %}
-    <p>
-        {% for media in article.medias %}
-            <a href="{{ media.url }}" class="media">
-                <img src="{{ media.url }}" alt="{{ media|get_caption }}" title="{{ media|get_caption }}">
-            </a>
-        {% endfor %}
-    </p>
+
+    {{ carousel(article) }}
+
     {% if article.lead %}
         <p class="lead">
             {{ article.lead }}

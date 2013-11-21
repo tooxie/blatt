@@ -19,8 +19,16 @@ class SocialMarkup(object):
         return Markup(tpl)
 
 
+def mk_carousel(article):
+    tpl = render_template('carousel.html', article=article)
+
+    return Markup(tpl)
+
+
 def register_functions(app):
     app.jinja_env.globals.update({
         'get_publications': lambda: session.query(Publication).all(),
         'social_buttons': SocialMarkup(app),
+        'carousel': mk_carousel,
+        'len': len,
     })
