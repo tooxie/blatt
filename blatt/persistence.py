@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import hashlib
 import datetime
 
@@ -10,9 +9,9 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 
-dirname = os.path.dirname(__file__)
+from blatt.config import DB_URI
 
-engine = create_engine('sqlite:///' + dirname + '/../blatt.db')
+engine = create_engine(DB_URI)
 
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
