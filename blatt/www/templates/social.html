@@ -5,16 +5,17 @@
 
     {% if current_user.is_anonymous() %}
         <button class="btn btn-default" name="like">
-            <i class="fa fa-thumbs-o-up"></i> Me gusta este artículo
+            <span class="glyphicon glyphicon-heart-empty"></span> Me gusta este artículo
+
         </button>
     {% else %}
         {% if current_user.likes(article) %}
             <button class="btn btn-default" name="like">
-                <i class="fa fa-thumbs-up"></i> Te gusta
+                <span class="glyphicon glyphicon-heart"></span> Te gusta
             </button>
         {% else %}
             <button class="btn btn-default" name="like">
-                <i class="fa fa-thumbs-o-up"></i> Me gusta este artículo
+                <span class="glyphicon glyphicon-heart-empty"></span> Me gusta este artículo
             </button>
         {% endif %}
     {% endif %}
