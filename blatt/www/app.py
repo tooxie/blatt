@@ -7,8 +7,8 @@ from flask.ext.login import (login_user, logout_user, current_user,
 from blatt.persistence import session, Publication, Article, User
 from blatt.www.auth import register_login_manager
 from blatt.www.forms import (LoginForm, SignupForm, ProfileForm,
-                             ProfileConfirmationForm)
-from blatt.www.jinjafilters import register_filters
+                             ProfileConfirmationForm, SignedArticleForm)
+from blatt.www.jinja import filters, functions
 from blatt.www.pagination import Pagination
 
 app = Flask(__name__)
@@ -85,6 +85,32 @@ def article_detail(publication_slug, article_slug, article_pk):
 
     return render_template('article_detail.html', publication=publication,
                            article=article, map=map)
+
+
+@app.route('/social/', methods=['POST'])
+@login_required
+def social():
+    secret_key = app.config['SECRET_KEY']
+    signed_form = SignedArticleForm(request.form, secret_key=secret_key)
+    article = signed_form._article
+    if signed_form.validate():
+        if 'like' in request.form:
+            if article in current_user.liked_articles:
+                current_user.liked_articles.remove(article)
+            else:
+                current_user.liked_articles.append(article)
+        elif 'fav' in request.form:
+            if article in current_user.favourites:
+                current_user.favourites.remove(article)
+            else:
+                current_user.favourites.append(article)
+
+        session.add(current_user)
+        session.commit()
+
+        return redirect(request.args.get('next') or request.referrer)
+
+    abort(404)
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -185,14 +211,9 @@ def profile_confirmation():
 
     return render_template('profile_confirmation.html', form=confirmation_form)
 
-
-# Jinja globals
-app.jinja_env.globals.update({
-    'get_publications': lambda: session.query(Publication).all()
-})
-
 register_login_manager(app)
-register_filters(app)
+filters.register_filters(app)
+functions.register_functions(app)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

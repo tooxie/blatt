@@ -122,6 +122,16 @@ class Media(Base):
     photographer = relationship('Photographer',
                                 backref=backref('photos', order_by=pk))
 
+favourites = Table('favourites', Base.metadata,
+    Column('article_pk', Integer, ForeignKey('articles.pk')),
+    Column('user_pk', Integer, ForeignKey('users.pk')),
+)
+
+likes = Table('likes', Base.metadata,
+    Column('article_pk', Integer, ForeignKey('articles.pk')),
+    Column('user_pk', Integer, ForeignKey('users.pk')),
+)
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -132,6 +142,11 @@ class User(Base):
     password = Column(String)
     salt = Column(String)
 
+    favourites = relationship('Article', secondary=favourites,
+                              backref='favourited_by')
+    liked_articles = relationship('Article', secondary=likes,
+                                  backref='liked_by')
+
     def __repr__(self):
         return "<User('%s')>" % self.email
 
@@ -141,6 +156,12 @@ class User(Base):
 
     def mk_password(self, password, secret_key):
         return mk_password(password, secret_key, self.salt)
+
+    def likes(self, article):
+        return article in self.liked_articles
+
+    def favourited(self, article):
+        return article in self.favourites
 
     def is_active(self):
         return True

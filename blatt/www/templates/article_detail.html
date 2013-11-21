@@ -3,6 +3,7 @@
     <h1>
         {{ article.title }}
     </h1>
+    {{ social_buttons(article) }}
     <p class="authors">
         Por
         {% for author in article.authors %}
@@ -33,6 +34,7 @@
         {{ article.body|markdown|safe }}
     </div>
 
+    {{ social_buttons(article) }}
     <p>
         <a href="{{ article.url }}">{{ article.url }}</a>
     </p>

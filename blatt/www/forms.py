@@ -6,7 +6,7 @@ from wtforms.form import Form
 from wtforms.validators import InputRequired, Email, ValidationError
 from wtforms.widgets import HiddenInput
 
-from blatt.persistence import User, session
+from blatt.persistence import session, User, Article
 from blatt.www.formvalidators import EmailNotInUse, EmailExists
 from blatt.www.widgets import InputWidget, PasswordWidget, CheckboxWidget
 
@@ -103,6 +103,42 @@ class ProfileConfirmationForm(Form):
         }
 
         return hashlib.md5(unicode(sig)).hexdigest()
+
+    def validate_signature(self, field):
+        if field.data != self.get_signature():
+            raise ValidationError(u'Error desconocido')
+
+
+class SignedArticleForm(Form):
+    article = StringField(widget=HiddenInput())
+    signature = StringField(widget=HiddenInput())
+
+    def __init__(self, *args, **kwargs):
+        self._article = self.get_article(*args, **kwargs)
+        self.secret_key = kwargs['secret_key']
+
+        super(SignedArticleForm, self).__init__(*args)
+
+    def sign(self):
+        self.article.data = self._article.pk
+        self.signature.data = self.get_signature()
+
+    def get_signature(self):
+        sig = u'%(url)r$%(pk)r$%(secret_key)r' % {
+            'url': self._article.url,
+            'pk': self._article.pk,
+            'secret_key': self.secret_key,
+        }
+
+        return hashlib.md5(unicode(sig)).hexdigest()
+
+    def get_article(self, *args, **kwargs):
+        article = kwargs.get('article')
+        if not article:
+            article_id = int(args[0]['article'])
+            article = session.query(Article).get(article_id)
+
+        return article
 
     def validate_signature(self, field):
         if field.data != self.get_signature():
