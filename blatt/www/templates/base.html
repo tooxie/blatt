@@ -31,7 +31,7 @@
                     </ul>
                     <div class="navbar-right navbar-form btn-group">
                         {% if current_user.is_anonymous() %}
-                            <a href="/login/" class="btn btn-default">Entrar</a>
+                            <a href="/login/?next={{ request.script_root + request.path }}" class="btn btn-default">Entrar</a>
                             <a href="/signup/" class="btn btn-default btn-success">Registrarse</a>
                         {% else %}
                             <a href="/logout/" class="btn btn-default">Salir</a>
