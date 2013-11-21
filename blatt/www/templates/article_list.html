@@ -6,6 +6,9 @@
     <p>
         <a href="{{ publication.url }}">{{ publication.url }}</a>
     </p>
+    <div class="visible-xs">
+        {{ pagination }}
+    </div>
     <div class="row">
         {% for article in articles %}
             <div class="col-xs-12 col-md-4 col-lg-4 article" style="background-image:url({{ article|get_image }})">

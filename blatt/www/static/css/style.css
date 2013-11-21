@@ -84,6 +84,7 @@ p.error {
 /* Pagination */
 ul.pagination {
     display: inline-block;
+    width: 100%;
     margin-bottom: 0px;
     margin-left: 0px;
     border-radius: 4px;

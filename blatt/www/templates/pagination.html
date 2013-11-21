@@ -14,12 +14,12 @@
                     <a title="Current page" href="#">{{ page }}</a>
                 </li>
             {% else %}
-                <li>
+            <li{% if page > pagination.page + 2 or page < pagination.page - 1 %} class="visible-sm visible-md visible-lg"{% endif %}>
                     <a title="Go to page {{ page }}" href="?page={{ page }}">{{ page }}</a>
                 </li>
             {% endif %}
         {% else %}
-            <li>
+            <li class="visible-sm visible-md visible-lg">
                 <span class="ellipsis">…</span>
             </li>
         {% endif %}
