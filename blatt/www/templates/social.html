@@ -7,9 +7,6 @@
         <button class="btn btn-default" name="like">
             <i class="fa fa-thumbs-o-up"></i> Me gusta este artículo
         </button>
-        <button class="btn btn-default" name="fav">
-            <i class="fa fa-star-o"></i> Marcar como favorito
-        </button>
     {% else %}
         {% if current_user.likes(article) %}
             <button class="btn btn-default" name="like">
@@ -18,15 +15,6 @@
         {% else %}
             <button class="btn btn-default" name="like">
                 <i class="fa fa-thumbs-o-up"></i> Me gusta este artículo
-            </button>
-        {% endif %}
-        {% if current_user.favourited(article) %}
-            <button class="btn btn-default" name="fav">
-                <i class="fa fa-star"></i> Es favorito
-            </button>
-        {% else %}
-            <button class="btn btn-default" name="fav">
-                <i class="fa fa-star-o"></i> Marcar como favorito
             </button>
         {% endif %}
     {% endif %}

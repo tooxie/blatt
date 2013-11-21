@@ -99,14 +99,9 @@ def social():
                 current_user.liked_articles.remove(article)
             else:
                 current_user.liked_articles.append(article)
-        elif 'fav' in request.form:
-            if article in current_user.favourites:
-                current_user.favourites.remove(article)
-            else:
-                current_user.favourites.append(article)
 
-        session.add(current_user)
-        session.commit()
+            session.add(current_user)
+            session.commit()
 
         return redirect(request.args.get('next') or request.referrer)
 

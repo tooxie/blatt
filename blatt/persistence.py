@@ -122,11 +122,6 @@ class Media(Base):
     photographer = relationship('Photographer',
                                 backref=backref('photos', order_by=pk))
 
-favourites = Table('favourites', Base.metadata,
-    Column('article_pk', Integer, ForeignKey('articles.pk')),
-    Column('user_pk', Integer, ForeignKey('users.pk')),
-)
-
 likes = Table('likes', Base.metadata,
     Column('article_pk', Integer, ForeignKey('articles.pk')),
     Column('user_pk', Integer, ForeignKey('users.pk')),
@@ -142,8 +137,6 @@ class User(Base):
     password = Column(String)
     salt = Column(String)
 
-    favourites = relationship('Article', secondary=favourites,
-                              backref='favourited_by')
     liked_articles = relationship('Article', secondary=likes,
                                   backref='liked_by')
 
@@ -159,12 +152,6 @@ class User(Base):
 
     def likes(self, article):
         return article in self.liked_articles
-
-    def favourited(self, article):
-        return article in self.favourites
-
-    def get_favourites(self, count):
-        return self.favourites[:count]
 
     def get_liked_articles(self, count):
         return self.liked_articles[:count]
