@@ -35,7 +35,8 @@ class Portal180Spider(CrawlSpider):
     logo = 'http://180.com.uy/tplef/img/logo.gif'  # Custom field
     allowed_domains = ['180.com.uy']
     start_urls = [
-        'http://180.com.uy/'
+        'http://180.com.uy',
+        'http://www.180.com.uy',
     ]
     rules = (
         Rule(SgmlLinkExtractor(allow=r'/actualidad/.*')),
@@ -47,6 +48,9 @@ class Portal180Spider(CrawlSpider):
     )
 
     def parse_article(self, response):
+        if response.url.endswith('180.com.uy'):
+            return None
+
         selector = XPathSelector(response)
         article = selector.select('//div[contains(@class, "tef-md-seccion")]')
 
