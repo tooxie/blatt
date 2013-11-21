@@ -20,6 +20,13 @@ def home():
     return render_template('publication_list.html')
 
 
+@app.route('/sitemap.xml')
+def sitemap():
+    # TODO: NotImplementedError
+
+    return render_template('sitemap.xml', pages=[])
+
+
 @app.route('/about/')
 def about():
     return render_template('about.html')
