@@ -21,7 +21,7 @@
     <!-- Example row of columns -->
     <div class="row">
         {% for publication in get_publications() %}
-        <div class="col-lg-4">
+        <div class="col-xs-12 col-md-4 col-lg-4">
             <h2>
                 <a href="/{{ publication.slug }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
             </h2>
@@ -29,6 +29,9 @@
                 <a class="btn btn-default" href="/{{ publication.slug }}">Ver artículos &raquo;</a>
             </p>
         </div>
+        {% if loop.index is divisibleby 3 %}
+            <div class="clearfix visible-md visible-lg"></div>
+        {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
