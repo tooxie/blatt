@@ -87,9 +87,12 @@ def article_detail(publication_slug, article_slug, article_pk):
                            article=article, map=map)
 
 
-@app.route('/social/', methods=['POST'])
+@app.route('/social/', methods=['GET', 'POST'])
 @login_required
 def social():
+    if request.method == 'GET':
+        return redirect(request.args.get('next') or url_for('index'))
+
     secret_key = app.config['SECRET_KEY']
     signed_form = SignedArticleForm(request.form, secret_key=secret_key)
     article = signed_form._article
