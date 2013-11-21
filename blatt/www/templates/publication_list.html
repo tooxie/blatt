@@ -14,7 +14,7 @@
             misma/o.
         </p>
         <p>
-            <a href="/about/" class="btn btn-primary btn-lg">&iquest;Querés saber más?</a>
+            <a href="{{ url_for('about') }}" class="btn btn-primary btn-lg">&iquest;Querés saber más?</a>
         </p>
     </div>
 
@@ -23,10 +23,10 @@
         {% for publication in get_publications() %}
         <div class="col-xs-12 col-md-4 col-lg-4">
             <h2>
-                <a href="/{{ publication.slug }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
+                <a href="{{ url_for('publication', slug=publication.slug) }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
             </h2>
             <p>
-                <a class="btn btn-default" href="/{{ publication.slug }}">Ver artículos &raquo;</a>
+                <a class="btn btn-default" href="{{ url_for('publication', slug=publication.slug) }}">Ver artículos &raquo;</a>
             </p>
         </div>
         {% if loop.index is divisibleby 3 %}

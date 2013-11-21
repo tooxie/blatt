@@ -24,17 +24,17 @@
                     <ul class="nav navbar-nav">
                         {% for newspaper in get_publications() %}
                             <li{% if publication == newspaper %} class="active"{% endif %}>
-                                <a href="/{{ newspaper.slug }}">{{ newspaper.name }}</a>
+                            <a href="{{ url_for('publication', slug=newspaper.slug) }}">{{ newspaper.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
                     <div class="navbar-right navbar-form btn-group">
                         {% if current_user.is_anonymous() %}
-                            <a href="/login/?next={{ request.script_root + request.path }}" class="btn btn-default">Entrar</a>
-                            <a href="/signup/" class="btn btn-default btn-success">Registrarse</a>
+                            <a href="{{ url_for('login') }}?next={{ request.script_root + request.path }}" class="btn btn-default">Entrar</a>
+                            <a href="{{ url_for('signup') }}" class="btn btn-default btn-success">Registrarse</a>
                         {% else %}
-                            <a href="/logout/" class="btn btn-default">Salir</a>
-                            <a href="/profile/" class="btn btn-default btn-success">{{ current_user.email }}</a>
+                            <a href="{{ url_for('logout') }}" class="btn btn-default">Salir</a>
+                            <a href="{{ url_for('profile') }}" class="btn btn-default btn-success">{{ current_user.email }}</a>
                         {% endif %}
                     </div>
                 </div>

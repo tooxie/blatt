@@ -26,7 +26,7 @@ def about():
 
 
 @app.route('/<slug>/')
-def article_list(slug):
+def publication(slug):
     try:
         publication = session.query(Publication).filter_by(slug=slug).one()
     except:
@@ -68,7 +68,7 @@ class Map:
 
 
 @app.route('/<publication_slug>/<article_slug>/<int:article_pk>/')
-def article_detail(publication_slug, article_slug, article_pk):
+def article(publication_slug, article_slug, article_pk):
     map = None
     article = session.query(Article).get(article_pk)
     if not article:

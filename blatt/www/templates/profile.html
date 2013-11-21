@@ -55,7 +55,7 @@
         <ul>
             {% for article in current_user.get_liked_articles(20) %}
                 <li>
-                    <a href="/{{ article.publication.slug }}/{{ article.title|slugify }}/{{ article.pk }}">{{ article.title }}</a>
+                <a href="{{ url_for('article', publication_slug=article.publication.slug, article_slug=article.title|slugify, article_pk=article.pk) }}">{{ article.title }}</a>
                     ({{ article.publication.name }})
                 </li>
             {% endfor %}
