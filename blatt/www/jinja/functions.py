@@ -25,9 +25,21 @@ def mk_carousel(article):
     return Markup(tpl)
 
 
+class Publications(object):
+    def __init__(self):
+        self.publications = None
+
+    def __call__(self):
+        if not self.publications:
+            queryset = session.query(Publication)
+            self.publications = queryset.order_by(Publication.name).all()
+
+        return self.publications
+
+
 def register_functions(app):
     app.jinja_env.globals.update({
-        'get_publications': lambda: session.query(Publication).all(),
+        'get_publications': Publications(),
         'social_buttons': SocialMarkup(app),
         'carousel': mk_carousel,
         'len': len,
