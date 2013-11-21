@@ -1,0 +1,35 @@
+<ul class="pagination">
+    {% if pagination.page > 1 %}
+        <li>
+            <a title="Go to first page" href="?page=1">&lt;&lt;</a>
+        </li>
+        <li>
+            <a title="Go to previous page" href="?page={{ pagination.page - 1 }}">&lt;</a>
+        </li>
+    {% endif %}
+    {% for page in pagination.iter_pages() %}
+        {% if page %}
+            {% if page == pagination.page %}
+                <li class="active">
+                    <a title="Current page" href="#">{{ page }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a title="Go to page {{ page }}" href="?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endif %}
+        {% else %}
+            <li>
+                <span class="ellipsis">…</span>
+            </li>
+        {% endif %}
+    {% endfor %}
+    {% if pagination.page < pagination.pages %}
+        <li>
+            <a title="Go to next page" href="?page={{ pagination.page + 1 }}">&gt;</a>
+        </li>
+        <li>
+            <a title="Go to last page" href="?page={{ pagination.pages }}">&gt;&gt;</a>
+        </li>
+    {% endif %}
+</ul>

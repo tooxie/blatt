@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 from math import floor
 
+from flask import render_template, Markup
+
 
 class Pagination(object):
 
-    def __init__(self, page, per_page, total_count):
+    def __init__(self, page, per_page, total_count,
+                 template='pagination.html'):
         self.page = int(page)
         self.per_page = int(per_page)
         self.total_count = int(total_count)
+        self.template = template
 
     @property
     def pages(self):
@@ -33,3 +37,6 @@ class Pagination(object):
                     yield None
                 yield num
                 last = num
+
+    def __html__(self):
+        return Markup(render_template(self.template, pagination=self))
