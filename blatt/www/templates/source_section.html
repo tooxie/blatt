@@ -1,0 +1,12 @@
+<select>
+    {% for publication in publications %}
+        <optgroup>
+            <legend>{{ publication.name }}</legend>
+            {% for section in publication.sections %}
+                <option>
+                    {{ section.name }}
+                </option>
+            {% endfor %}
+        </optgroup>
+    {% endfor %}
+</select>

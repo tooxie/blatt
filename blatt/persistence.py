@@ -2,8 +2,8 @@
 import hashlib
 import datetime
 
-from sqlalchemy import (create_engine, Column, Integer, String, Text, DateTime,
-                        Table)
+from sqlalchemy import (Boolean, Column, create_engine, DateTime, Integer,
+                        String, Table, Text)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -177,3 +177,28 @@ def mk_password(password, secret_key, salt):
     _passwd = '%s#*%s$@%s' % (password, secret_key, salt)
 
     return hashlib.sha512(_passwd).hexdigest()
+
+
+class CustomJournals(Base):
+    __tablename__ = 'customjournals'
+
+    pk = Column(Integer, primary_key=True)
+    name = Column(String)
+    user_pk = Column(Integer, ForeignKey('users.pk'))
+    creation_date = Column(DateTime)
+
+    users = relationship('User', backref=backref('journals', order_by=name))
+
+
+class RuleGroup(Base):
+    __tablename__ = 'rulegroups'
+
+    pk = Column(Integer, primary_key=True)
+    negated = Column(Boolean)
+
+
+class Rules(Base):
+    __tablename__ = 'rules'
+
+    pk = Column(Integer, primary_key=True)
+    negated = Column(Boolean)

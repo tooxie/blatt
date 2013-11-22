@@ -13,7 +13,7 @@
             Por
             {% for author in article.authors %}
                 {% if loop.index > 1 %} y {% endif %}
-                <a class="author" href="{{ url_for('journalist', name_slug=author.name|slugify, journalist_pk=author.pk) }}">{{ author.name|twitterify|safe }}</a>
+                <a class="author" href="{{ url_for('journalist', name_slug=author.name|slugify, journalist_pk=author.pk) }}">{{ author.name }}</a>
             {% endfor %}<br>
         {% endif %}
         {{ article.publication_date|untime }}

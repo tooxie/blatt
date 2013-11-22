@@ -1,0 +1,12 @@
+{{ rule.source.name }}:
+
+<select>
+    {% for op in rule.get_operators() %}
+        <option>
+            {{ op }}
+        </option>
+    {% endfor %}
+</select>
+
+
+{{ rule.source }}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block page_title %}Mi propio diario{% endblock %}
+{% block content %}
+    <div class="row">
+        <h1>
+            Mi propio diario
+        </h1>
+        <p>
+            Crear tu diario es muy simple, primero necesitas definir criterios para incluir
+            artículos:
+        </p>
+
+        <fieldset class="form-group">
+            <legend>
+                Grupo de reglas
+            </legend>
+
+        {% for ruleset in rulesets %}
+            <div>
+                {{ ruleset }}
+            </div>
+        {% endfor %}
+
+            <!--
+            <input type="checkbox" name="neg_1" value="1" id="neg_1">
+            <label for="neg_1" title="Excluir los artículos que cumplan con estas condiciones">
+                Negar grupo
+            </label>
+            <div class="clearfix"></div>
+            -->
+
+            <form class="form form-inline">
+                <select name="source" class="form-control" style="width: auto">
+                    <option value="publication">
+                        Publicación
+                    </option>
+                    <option value="section">
+                        Sección
+                    </option>
+                    <option value="journalist">
+                        Periodista
+                    </option>
+                    <option value="media">
+                        Con foto
+                    </option>
+                    <option value="title">
+                        Título
+                    </option>
+                    <option value="body">
+                        Cuerpo
+                    </option>
+                    <option value="geolocation">
+                        Ubicación geográfica
+                    </option>
+                </select>
+                <button class="btn btn-lg btn-default" type="submit">
+                    <span class="glyphicon glyphicon-plus"></span> Nueva regla
+                </button>
+            </form>
+            <p>
+                Elige un criterio para la nueva regla.
+            </p>
+        </fieldset>
+
+        <!--
+        <form>
+            <button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-plus"></span> Nuevo grupo de reglas
+            </button>
+        </form>
+        . Incluir/Excluir (Bool)
+        . Diario (Select)
+        . Sección (Select)
+        . Periodista (Select)
+        . Tiene (o no) foto (Bool)
+        . Fotógrafo (Select)
+        . Título (Full text)
+        . Cuerpo (Full text)
+        . Ubicación geográfica
+        -->
+    </div>
+{% endblock %}

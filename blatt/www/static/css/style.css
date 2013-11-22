@@ -92,3 +92,6 @@ p.lead {
 .carousel-inner {
     text-align: center;
 }
+fieldset.form-group {
+    margin-top: 3em;
+}

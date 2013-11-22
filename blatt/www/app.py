@@ -232,6 +232,15 @@ def profile_confirmation():
 
     return render_template('profile_confirmation.html', form=confirmation_form)
 
+
+@app.route('/my-journal/')
+@login_required
+def my_journal():
+    from blatt.www.rules import RuleSet
+
+    return render_template('my_journal.html', rulesets=RuleSet().rules)
+
+
 register_login_manager(app)
 filters.register_filters(app)
 functions.register_functions(app)

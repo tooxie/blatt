@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block page_title %}Tu perfil{% endblock %}
 {% block content %}
+    <h1>
+        Tu perfil
+    </h1>
     <div class="form-profile col-xs-12 col-sm-6 col-lg-4">
         <h2>
             Mis datos
@@ -28,9 +31,9 @@
                 </p>
             {% endfor %}
 
-            <h3>
+            <h2>
                 Cambiar password
-            </h3>
+            </h2>
             {{ form.new_password }}
             {% for error in form.new_password.errors %}
                 <p class="error">
@@ -61,5 +64,20 @@
                 </li>
             {% endfor %}
         </ul>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <h1>
+        Tu propio diario
+    </h1>
+    <div class="col-xs-12 col-sm-6 col-lg-8">
+        {% if not sources %}
+            <p>
+                Armá tu propio diario. Recibí en tu correo diariamente las noticias que te
+                interesan, en el formato que quieras. Texto, HTML o mobi. Es muy simple:
+            </p>
+        {% endif %}
+        <a href="{{ url_for('my_journal') }}" class="btn btn-lg btn-primary">Crear diario &gt;&gt;</a>
     </div>
 {% endblock %}
