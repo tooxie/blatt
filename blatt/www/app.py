@@ -147,11 +147,13 @@ def login():
 
     return render_template('login.html', form=login_form)
 
+
 @app.route("/logout/")
 def logout():
     logout_user()
 
     return render_template('logout.html')
+
 
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
@@ -174,14 +176,17 @@ def signup():
 
     return render_template('signup.html', form=signup_form)
 
+
 @app.route('/password-recovery/')
 @login_required
 def password_recovery():
     return render_template('password_recovery.html')
 
+
 @app.route('/signup/done/')
 def signup_done():
     return render_template('signup_done.html')
+
 
 @app.route('/profile/', methods=['GET', 'POST'])
 @login_required
@@ -202,6 +207,7 @@ def profile():
                                    form=confirmation_form)
 
     return render_template('profile.html', form=profile_form)
+
 
 @app.route('/profile/confirm/', methods=['POST'])
 @login_required
