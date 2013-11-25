@@ -84,3 +84,11 @@ p.error {
 ul.pagination {
     width: 100%;
 }
+div.body,
+p.lead {
+    font-size:1.5em;
+    margin-top:1em;
+}
+.carousel-inner {
+    text-align: center;
+}
