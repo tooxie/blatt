@@ -79,8 +79,7 @@ class SectionSource(object):
         return u'Section'
 
     def __html__(self):
-        publications = session.query(Publication).all()
-        html = render_template('source_section.html', publications=publications)
+        html = render_template('source_section.html')
 
         return html
 

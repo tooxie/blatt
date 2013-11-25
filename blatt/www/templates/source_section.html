@@ -1,7 +1,6 @@
 <select>
-    {% for publication in publications %}
-        <optgroup>
-            <legend>{{ publication.name }}</legend>
+    {% for publication in get_publications() %}
+        <optgroup label="{{ publication.name }}">
             {% for section in publication.sections %}
                 <option>
                     {{ section.name }}
