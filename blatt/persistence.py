@@ -46,7 +46,7 @@ class Section(Base):
     slug = Column(String)
 
     publications = relationship('Publication', secondary=publications_sections,
-                          backref='sections')
+                          backref=backref('sections', order_by=name))
 
     def __repr__(self):
         return "<Section('%s')>" % self.name
