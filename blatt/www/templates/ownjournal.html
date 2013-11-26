@@ -1,0 +1,64 @@
+    <h1>
+        Tu propio diario
+    </h1>
+    <div class="col-xs-12 col-sm-12 col-lg-12">
+        <p>
+            Armá tu propio diario.
+        </p>
+        <form class="ownjournal">
+            <fieldset>
+                <legend>
+                    Publicaciones
+                </legend>
+
+                {% for publication in get_publications() %}
+                    <div class="field publication">
+                        <input type="checkbox" name="publication" value="{{ publication.pk }}" id="pub_{{ publication.pk }}">
+                        <label for="pub_{{ publication.pk }}">
+                            {{ publication.name }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <fieldset>
+                <legend>
+                    Secciones
+                </legend>
+
+                {% for publication in get_publications() %}
+                    <div class="col-xs-12 col-sm-4 col-lg-3">
+                        <h3>
+                            {{ publication.name }}
+                        </h3>
+                        {% for section in publication.sections %}
+                            <div class="field">
+                                <input type="checkbox" name="section" value="{{ section.pk }}" id="sec_{{ section.pk }}">
+                                <label for="sec_{{ section.pk }}">
+                                    {{ section.name }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </fieldset>
+
+            <fieldset>
+                <legend>
+                    Periodistas
+                </legend>
+
+                {% for journalist in journalists %}
+                    <div class="col-xs-12 col-md-2 field journalist">
+                        <input type="checkbox" name="journalist" value="{{ journalist.pk }}" id="jou_{{ journalist.pk }}">
+                        <label for="jou_{{ journalist.pk }}">
+                            {{ journalist.name }}
+                        </label>
+                    </div>
+                    {% if loop.index is divisibleby 5 %}
+                        <div class="clearfix visible-md visible-lg"></div>
+                    {% endif %}
+                {% endfor %}
+            </fieldset>
+        </form>
+    </div>

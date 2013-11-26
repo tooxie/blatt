@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import render_template, Markup
 
-from blatt.persistence import session, Publication
+from blatt.persistence import session, Publication, Journalist
 from blatt.www.forms import SignedArticleForm
 
 
@@ -37,6 +37,13 @@ class Publications(object):
         return self.publications
 
 
+def own_journal():
+    journalists = session.query(Journalist).order_by(Journalist.name).all()
+    tpl = render_template('ownjournal.html', journalists=journalists)
+
+    return Markup(tpl)
+
+
 def register_functions(app):
     app.jinja_env.globals.update({
         'get_publications': Publications(),
@@ -44,4 +51,5 @@ def register_functions(app):
         'carousel': mk_carousel,
         'len': len,
         'site_name': app.config.get('SITE_NAME', 'Blatt'),
+        'own_journal': own_journal,
     })

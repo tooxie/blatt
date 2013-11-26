@@ -92,3 +92,21 @@ p.lead {
 .carousel-inner {
     text-align: center;
 }
+.ownjournal .publication,
+.ownjournal .journalist {
+    display: inline;
+    margin-right: 2em;
+}
+.ownjournal fieldset {
+    margin-bottom: 3em;
+}
+.ownjournal .journalist {
+    margin-bottom: 0.8em;
+}
+.ownjournal .journalist label {
+    /* width: 130px; */
+    display: inline;
+}
+.ownjournal .journalist input {
+    vertical-align: top;
+}
