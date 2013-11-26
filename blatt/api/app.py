@@ -2,8 +2,8 @@
 from flask import Flask
 from flask.ext.restful import Api
 
-from blatt.api.resources import (PublicationResource, ArticleResource,
-                                 JournalistResource, MediaResource)
+from blatt.api.resources import (ArticleResource, JournalistResource,
+                                 MediaResource, PublicationResource)
 
 app = Flask(__name__)
 app.config.from_object('blatt.api.config')
