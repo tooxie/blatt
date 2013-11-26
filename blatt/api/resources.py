@@ -31,7 +31,7 @@ class ArticleResource(BlattResource):
             'publication': ForeignKeyField('publications', ['name']),
             'section': ForeignKeyField('sections', ['name']),
             'authors': ForeignKeyField('journalists', ['name']),
-            # 'media': ManyToManyField(media_fields),
+            'media': ForeignKeyField('/media/'),
         }
 
     def get_one(self, art_id, options=None):
