@@ -118,7 +118,7 @@ class Media(Base):
     article_pk = Column(Integer, ForeignKey('articles.pk'))
     photographer_pk = Column(Integer, ForeignKey('photographers.pk'))
 
-    article = relationship('Article', backref=backref('medias', order_by=pk))
+    article = relationship('Article', backref=backref('media', order_by=pk))
     photographer = relationship('Photographer',
                                 backref=backref('photos', order_by=pk))
 

@@ -39,8 +39,8 @@ def get_media_caption(media):
 
 
 def get_article_image(article):
-    if len(article.medias):
-        return article.medias[0].url
+    if len(article.media):
+        return article.media[0].url
 
     return ''
 
