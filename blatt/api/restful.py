@@ -37,7 +37,7 @@ class BlattResource(Resource):
 
         return self.options
 
-    def filter(self, queryset, filters):
+    def apply_filters(self, queryset):
         """
         This method is supposed to be overriden by its children, to define the
         options available and how to map them to a DB field. The format is as
@@ -52,7 +52,6 @@ class BlattResource(Resource):
         """
 
         options = self.get_options()
-        filters = {}
         if not hasattr(self, 'get_filters'):
             return queryset
 
@@ -60,16 +59,18 @@ class BlattResource(Resource):
             key = attribute[0]
             value = options.get(attribute[1])
             if value:
-                filters[key] = value
+                queryset = queryset.filter_by(**{key: value})
 
-        if filters:
-            queryset = queryset.filter_by(**filters)
+        if hasattr(self, 'filter') and callable(self.filter):
+            queryset = self.filter(queryset, options)
+            if not queryset:
+                return []
 
         return queryset
 
     def paginate(self, queryset):
         options = self.get_options()
-        queryset = self.filter(queryset, options)
+        queryset = self.apply_filters(queryset)
 
         try:
             page_number = int(options.get('page', 1))

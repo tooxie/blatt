@@ -15,10 +15,6 @@ class ArticleResource(BlattResource):
         )
 
     def get_fields(self):
-        media_fields = {
-            'pk': fields.String,
-        }
-
         return {
             'pk': fields.String,
             'title': fields.String,
@@ -33,6 +29,13 @@ class ArticleResource(BlattResource):
             'authors': ForeignKeyField('journalists', ['name']),
             'media': ForeignKeyField('/media/'),
         }
+
+    def filter(self, queryset, options):
+        j_id = options.get('journalist')
+        if j_id:
+            queryset = queryset.filter(Article.authors.any(pk=j_id))
+
+        return queryset
 
     def get_one(self, art_id, options=None):
         return session.query(Article).get(art_id)
@@ -66,6 +69,7 @@ class JournalistResource(BlattResource):
             'pk': fields.String,
             'name': fields.String,
             'url': InstanceURL('journalists'),
+            'articles': RelatedResource('/articles/', 'journalist'),
         }
 
     def get_one(self, j_id, options=None):
