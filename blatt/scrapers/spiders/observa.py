@@ -45,8 +45,8 @@ class ElObservadorSpider(CrawlSpider):
         selector = XPathSelector(response)
         story = selector.select('//div[contains(@class, "story")]')
 
-        title = selector.select('//h1/text()').extract()[0]
-        deck = story.select('h2/text()').extract()[0]
+        title = selector.select('//h1/text()').extract()[0].strip()
+        deck = story.select('h2/text()').extract()[0].strip()
 
         body = parse_body(selector.select('//div[@class="story_left"]/*'))
         authors = parse_author(selector.select('//div[@class="story_left"]'
