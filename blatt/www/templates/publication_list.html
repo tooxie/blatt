@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="row" id="search">
+        <form>
+            <div class="col-lg-9 input">
+                <input type="text" class="form-control">
+            </div>
+
+            <div class="visible-xs clearfix"></div>
+            <button class="btn btn-lg btn-primary col-xs-12 col-md-2 col-lg-2" type="submit">Buscar</button>
+
+            <div class="clearfix" style="margin-bottom: 1em;"></div>
+            <p>
+                <a href="/derp">Búsqueda avanzada</a>
+            </p>
+        </form>
+    </div>
+
     <div class="jumbotron">
         <h1>
             {{ site_name }}
