@@ -18,20 +18,24 @@
         </p>
     </div>
 
-    <!-- Example row of columns -->
-    <div class="row">
+    <div class="row" id="publications">
+        <h2>
+            Publicaciones
+        </h2>
         {% for publication in get_publications() %}
-        <div class="col-xs-12 col-md-4 col-lg-4">
-            <h2>
-                <a href="{{ url_for('publication', slug=publication.slug) }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
-            </h2>
-            <p>
-                <a class="btn btn-default" href="{{ url_for('publication', slug=publication.slug) }}">Ver artículos &raquo;</a>
-            </p>
-        </div>
-        {% if loop.index is divisibleby 3 %}
-            <div class="clearfix visible-md visible-lg"></div>
-        {% endif %}
+            <div class="col-xs-12 col-md-5 col-lg-5 publication">
+                <h2>
+                    <a href="{{ url_for('publication', slug=publication.slug) }}"><img src="{{ publication.logo }}" alt="{{ publication.name }}" title="{{ publication.name }}"></a>
+                </h2>
+                <p>
+                    <a class="btn btn-default" href="{{ url_for('publication', slug=publication.slug) }}">Ver artículos &raquo;</a>
+                </p>
+            </div>
+            {% if loop.index is divisibleby 2 %}
+                <div class="clearfix visible-md visible-lg"></div>
+            {% else %}
+                <div class="col-md-2 col-lg-2"></div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}
