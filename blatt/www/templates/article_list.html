@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block page_title %}{{ publication.name }}{% endblock %}
-{% block body_class %}article_list{% endblock %}
+{% block body_class %}article-list{% endblock %}
 {% block content %}
     <h1>
         {{ publication.name }}
@@ -13,7 +13,7 @@
     </div>
     <div class="row">
         {% for article in articles %}
-            <div class="col-xs-12 col-md-4 col-lg-4 article" style="background-image:url({{ article|get_image }})">
+            <div class="col-xs-12 col-md-5 col-lg-5 article" id="article-teaser">
                 <div class="article-inner">
                     <div>
                         <span class="date">{{ article.publication_date|untime }}</span>
@@ -26,16 +26,23 @@
                     <h2>
                         <a href="{{ url_for('article', publication_slug=publication.slug, article_slug=article.title|slugify, article_pk=article.pk) }}">{{ article.title }}</a>
                     </h2>
+
+                    {% if article|get_image %}
+                        <a href="{{ url_for('article', publication_slug=publication.slug, article_slug=article.title|slugify, article_pk=article.pk) }}" class="main-img"><img src="{{ article|get_image }}"></a>
+                    {% endif %}
+
                     <p class="lead">
                         {{ article|get_lead }}
                     </p>
-                    <p>
+                    <p class="upstream-url hidden-xs">
                         <a href="{{ article.url }}">{{ article.url }}</a>
                     </p>
                 </div>
             </div>
-            {% if loop.index is divisibleby 3 %}
+            {% if loop.index is divisibleby 2 %}
                 <div class="clearfix visible-md visible-lg"></div>
+            {% else %}
+                <div class="col-md-2 col-lg-2"></div>
             {% endif %}
         {% endfor %}
     </div>

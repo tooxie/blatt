@@ -18,8 +18,8 @@ def get_article_lead(article):
         lead = article.body[:article.body.find('.')]
 
     words = lead.split(' ')
-    if len(words) > 20:
-        lead = ' '.join(words[:20]) + '...'
+    if len(words) > 40:
+        lead = ' '.join(words[:40]) + '...'
 
     return lead
 
@@ -46,7 +46,8 @@ def get_article_image(article):
 
 
 def twitterify(string):
-    return TWIT_RE.sub('<a href="https://twitter.com/\\1">@\\1</a>', string)
+    return TWIT_RE.sub('<a href="https://twitter.com/\\1" '
+                       'class="hidden-xs">@\\1</a>', string)
 
 
 def get_user():

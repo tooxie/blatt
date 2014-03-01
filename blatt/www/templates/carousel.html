@@ -1,6 +1,6 @@
 {% with count = len(article.media) %}
     {% if count == 1 %}
-        <p>
+        <p class="main-img">
             {% for media in article.media %}
                 <a href="{{ media.url }}" class="media">
                     <img src="{{ media.url }}" alt="{{ media|get_caption }}" title="{{ media|get_caption }}">

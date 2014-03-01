@@ -2,54 +2,55 @@
 {% block page_title %}{{ article.publication.name }} - {{ article.title }}{% endblock %}
 {% block body_class %}article{% endblock %}
 {% block content %}
-    <h1>
-        {{ article.title }}
-    </h1>
+    <div id="article">
+        <h1>
+            {{ article.title }}
+        </h1>
 
-    {{ social_buttons(article) }}
+        {{ social_buttons(article) }}
 
-    <p>
-        {% if article.authors %}
-            Por
-            {% for author in article.authors %}
-                {% if loop.index > 1 %} y {% endif %}
-                <a class="author" href="{{ url_for('journalist', name_slug=author.name|slugify, journalist_pk=author.pk) }}">{{ author.name|twitterify|safe }}</a>
-            {% endfor %}<br>
+        <p>
+            {% if article.authors %}
+                Por
+                {% for author in article.authors %}
+                    {% if loop.index > 1 %} y {% endif %}
+                    <a class="author" href="{{ url_for('journalist', name_slug=author.name|slugify, journalist_pk=author.pk) }}">{{ author.name|twitterify|safe }}</a>
+                {% endfor %}<br>
+            {% endif %}
+            {{ article.publication_date|untime }}
+        </p>
+        {% if article.deck %}
+            <p class="deck">
+                {{ article.deck }}
+            </p>
         {% endif %}
-        {{ article.publication_date|untime }}
-    </p>
-    {% if article.deck %}
-        <p class="deck">
-            {{ article.deck }}
-        </p>
-    {% endif %}
 
-    {{ carousel(article) }}
+        <div id="carousel">
+            {{ carousel(article) }}
+        </div>
 
-    {% if article.lead %}
-        <p class="lead">
-            {{ article.lead }}
+        {% if article.lead %}
+            <p class="lead">
+                {{ article.lead }}
+            </p>
+            <hr>
+        {% endif %}
+        <div class="body">
+            {{ article.body|markdown|safe }}
+        </div>
+
+        {{ social_buttons(article) }}
+
+        {% if map %}
+            {{ map.render()|safe }}
+        {% endif %}
+
+        <!-- Publication -->
+        <h2>
+            {{ publication.name }}
+        </h2>
+        <p>
+            <a href="{{ article.url }}">{{ article.url }}</a>
         </p>
-        <hr>
-    {% endif %}
-    <div class="body">
-        {{ article.body|markdown|safe }}
     </div>
-
-    {{ social_buttons(article) }}
-    <p>
-        <a href="{{ article.url }}">{{ article.url }}</a>
-    </p>
-
-    {% if map %}
-        {{ map.render()|safe }}
-    {% endif %}
-
-    <!-- Publication -->
-    <h2>
-        {{ publication.name }}
-    </h2>
-    <p>
-        <a href="{{ publication.url }}">{{ publication.url }}</a>
-    </p>
 {% endblock %}
