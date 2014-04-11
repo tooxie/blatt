@@ -1,5 +1,6 @@
 blatt.db
 config.py
+.*[.?]sw*
 
 *.py[cod]
 
@@ -32,8 +33,3 @@ nosetests.xml
 
 # Translations
 *.mo
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
